@@ -28,7 +28,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: limesurvey-apache
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -47,6 +47,20 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: DB_PASSWORD
+              value: {{ .Values.externalDatabase.password }}
+            - name: DB_USERNAME
+              value: {{ .Values.externalDatabase.username }}
+            - name: ADMIN_PASSWORD
+              value: {{ .Values.limesurvey.admin.password }}
+            - name: DB_HOST
+              value: {{ .Values.externalDatabase.host }}
+            - name: DEBUG
+              value: "{{ .Values.limesurvey.debug }}"
+            - name: DEBUG_SQL
+              value: "{{ .Values.limesurvey.debug_sql }}"
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
