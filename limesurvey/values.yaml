@@ -3,10 +3,10 @@
 replicaCount: 1
 
 image:
-  repository: martiablog/limesurvey:5-apache
+  repository: martialblog/limesurvey
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: null
 
 imagePullSecrets: []
 nameOverride: ""
@@ -17,6 +17,32 @@ serviceAccount:
   create: true
   annotations: {}
   name: ""
+
+database:
+  mariadb:
+    enabled: true
+    todo: todo
+
+externalDatabase:
+  host: mariadb
+  port: 3306
+  username: root
+  password: "secretpassword"
+  database: limesurvey
+  # TODO
+  existingSecret: null
+
+# Limesurvey Application configuration
+limesurvey:
+  admin:
+    user: admin
+    password: admin
+    name: Administrator
+    email: admin@example.com
+  public_url: http://localhost
+  base_url: http://localhost
+  debug: 2
+  debug_sql: 0
 
 podAnnotations: {}
 
