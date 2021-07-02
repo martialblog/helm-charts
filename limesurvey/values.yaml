@@ -39,10 +39,16 @@ limesurvey:
     password: admin
     name: Administrator
     email: admin@example.com
-  public_url: http://localhost
-  base_url: http://localhost
-  debug: 2
-  debug_sql: 0
+  encrypt:
+    keypair: ""
+    publicKey: ""
+    secretKey: ""
+  publicUrl: http://localhost
+  baseUrl: http://localhost
+  urlFormat: "path"
+  showScriptName: ""
+  debug: 0
+  debugSql: 0
 
 podAnnotations: {}
 
@@ -59,7 +65,7 @@ ingress:
   className: ""
   annotations: {}
   hosts:
-    - host: chart-example.local
+    - host: limesurvey.local
       paths:
         - path: /
           pathType: ImplementationSpecific
