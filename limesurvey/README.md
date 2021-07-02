@@ -1,4 +1,4 @@
-# LimeSruvey
+# LimeSurvey
 
 [LimeSurvey](https://limesurvey.org/) is the number one open-source survey software.
 

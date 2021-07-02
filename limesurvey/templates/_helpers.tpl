@@ -60,3 +60,31 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Return the MariaDB Secret Name
+*/}}
+{{- define "limesurvey.databaseSecretName" -}}
+{{- if .Values.mariadb.enabled }}
+    {{- if .Values.mariadb.auth.existingSecret -}}
+        {{- printf "%s" .Values.mariadb.auth.existingSecret -}}
+    {{- else -}}
+        {{- printf "%s" (include "limesurvey.mariadb.fullname" .) -}}
+    {{- end -}}
+{{- else if .Values.externalDatabase.existingSecret -}}
+    {{- printf "%s" .Values.externalDatabase.existingSecret -}}
+{{- else -}}
+    {{- printf "%s-externaldb" (include "common.names.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the LimeSurvey Secret Name
+*/}}
+{{- define "limesurvey.secretName" -}}
+{{- if .Values.existingSecret }}
+    {{- printf "%s" .Values.existingSecret -}}
+{{- else -}}
+    {{- printf "%s" (include "common.names.fullname" .) -}}
+{{- end -}}
+{{- end -}}

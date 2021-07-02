@@ -18,10 +18,13 @@ serviceAccount:
   annotations: {}
   name: ""
 
-database:
-  mariadb:
-    enabled: true
-    todo: todo
+mariadb:
+  enabled: false
+  auth:
+    rootPassword: ""
+    database: limesurvey
+    username: limesurvey
+    password: ""
 
 externalDatabase:
   host: mariadb
