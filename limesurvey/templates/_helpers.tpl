@@ -74,7 +74,7 @@ Return the MariaDB Secret Name
 {{- else if .Values.externalDatabase.existingSecret -}}
     {{- printf "%s" .Values.externalDatabase.existingSecret -}}
 {{- else -}}
-    {{- printf "%s-externaldb" (include "common.names.fullname" .) -}}
+    {{- printf "%s-externaldb" (include "limesurvey.fullname" .) -}}
 {{- end -}}
 {{- end -}}
 
@@ -85,6 +85,6 @@ Return the LimeSurvey Secret Name
 {{- if .Values.existingSecret }}
     {{- printf "%s" .Values.existingSecret -}}
 {{- else -}}
-    {{- printf "%s" (include "common.names.fullname" .) -}}
+    {{- printf "%s" (include "limesurvey.fullname" .) -}}
 {{- end -}}
 {{- end -}}

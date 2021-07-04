@@ -29,8 +29,8 @@ mariadb:
 externalDatabase:
   host: mariadb
   port: 3306
-  username: root
-  password: "secretpassword"
+  username: limesurvey
+  password: "your-super-secret-password"
   database: limesurvey
   # TODO
   existingSecret: null

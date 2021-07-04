@@ -54,7 +54,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ include "limesurvey.databaseSecretName" . }}
-                  key: limesurvey-admin-password
+                  key: mariadb-password
             - name: DB_USERNAME
               value: {{ .Values.externalDatabase.username }}
             - name: ADMIN_PASSWORD
@@ -76,21 +76,27 @@ spec:
               value: {{ .Values.limesurvey.urlFormat }}
             - name: SHOW_SCRIPT_NAME
               value: {{ .Values.limesurvey.showScriptName }}
+            {{- if .Values.limesurvey.encrypt.keypair }}
             - name: ENCRYPT_KEYPAIR
               valueFrom:
                 secretKeyRef:
                   name: {{ include "limesurvey.secretName" . }}
                   key: limesurvey-encrypt-keypair
+            {{- end }}
+            {{- if .Values.limesurvey.encrypt.publicKey }}
             - name: ENCRYPT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "limesurvey.secretName" . }}
                   key: limesurvey-encrypt-publickey
+            {{- end }}
+            {{- if .Values.limesurvey.encrypt.secretKey }}
             - name: ENCRYPT_SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "limesurvey.secretName" . }}
                   key: limesurvey-encrypt-secretkey
+            {{- end }}
             - name: DEBUG
               value: "{{ .Values.limesurvey.debug }}"
             - name: DEBUG_SQL
