@@ -4,3 +4,10 @@ description: Limesurvey is the number one open-source survey software.
 type: application
 version: 0.1.0
 appVersion: "5-apache"
+maintainers:
+  - email: markus@martialblog.de
+    name: Markus
+sources:
+  - https://github.com/martialblog/helm-charts
+  - https://github.com/martialblog/docker-limesurvey/
+  - https://limesurvey.org/
