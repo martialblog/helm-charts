@@ -6,7 +6,8 @@
 
 ```console
 helm repo add martialblog https://martialblog.github.io/helm-charts
-$ helm install my-release martialblog/limesurvey
+helm repo update
+helm install my-release martialblog/limesurvey
 ```
 
 ## Introduction
@@ -15,7 +16,7 @@ This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.
 
 ## Prerequisites
 
-- Kubernetes 1.12+
+- Kubernetes 1.13+
 - Helm 3+
 - PV provisioner support in the underlying infrastructure
 
