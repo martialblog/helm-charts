@@ -4,10 +4,13 @@ replicaCount: 1
 
 image:
   repository: martialblog/limesurvey
+  # Specify a imagePullPolicy
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # Overrides the image tag whose default is the chart appVersion
   tag: null
 
+# Optionally specify an array of imagePullSecrets
+# Secrets must be manually created in the namespace
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -18,31 +21,58 @@ serviceAccount:
   annotations: {}
   name: ""
 
-database:
-  mariadb:
-    enabled: true
-    todo: todo
+## MariaDB chart configuration
+mariadb:
+  # Deploy a MariaDB server to satisfy the database requirements
+  enabled: false
+  auth:
+    # MariaDB root password
+    rootPassword: ""
+    # MariaDB custom database
+    database: limesurvey
+    # MariaDB custom user name
+    username: limesurvey
+    # MariaDB custom user password
+    password: ""
+    # TODO: persistence
 
 externalDatabase:
+  # External Database server host
   host: mariadb
+  # External Database server port
   port: 3306
-  username: root
-  password: "secretpassword"
+  # External Database username
+  username: limesurvey
+  # External Database user password
+  password: "your-super-secret-password"
+  # External Database database name
   database: limesurvey
   # TODO
   existingSecret: null
 
 # Limesurvey Application configuration
 limesurvey:
+  # LimeSurvey initial Administrator Account
   admin:
     user: admin
     password: admin
     name: Administrator
     email: admin@example.com
-  public_url: http://localhost
-  base_url: http://localhost
-  debug: 2
-  debug_sql: 0
+  # LimeSurvey permits the encryption of personal data
+  # These values will be created as secret
+  # https://manual.limesurvey.org/Data_encryption
+  encrypt:
+    keypair: ""
+    publicKey: ""
+    secretKey: ""
+  publicUrl: http://localhost
+  baseUrl: http://localhost
+  urlFormat: "path"
+  showScriptName: ""
+  # LimeSurvey Debug level (0, 1, 2)
+  debug: 0
+  # LimeSurvey SQL Debug level (0, 1, 2)
+  debugSql: 0
 
 podAnnotations: {}
 
@@ -59,7 +89,7 @@ ingress:
   className: ""
   annotations: {}
   hosts:
-    - host: chart-example.local
+    - host: limesurvey.local
       paths:
         - path: /
           pathType: ImplementationSpecific
