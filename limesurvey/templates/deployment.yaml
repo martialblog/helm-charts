@@ -48,14 +48,55 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+            - name: DB_HOST
+              value: {{ .Values.externalDatabase.host }}
             - name: DB_PASSWORD
-              value: {{ .Values.externalDatabase.password }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "limesurvey.databaseSecretName" . }}
+                  key: mariadb-password
             - name: DB_USERNAME
               value: {{ .Values.externalDatabase.username }}
             - name: ADMIN_PASSWORD
-              value: {{ .Values.limesurvey.admin.password }}
-            - name: DB_HOST
-              value: {{ .Values.externalDatabase.host }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "limesurvey.secretName" . }}
+                  key: limesurvey-admin-password
+            - name: ADMIN_USER
+              value: {{ .Values.limesurvey.admin.user }}
+            - name: ADMIN_NAME
+              value: {{ .Values.limesurvey.admin.name }}
+            - name: ADMIN_EMAIL
+              value: {{ .Values.limesurvey.admin.email }}
+            - name: BASE_URL
+              value: {{ .Values.limesurvey.baseUrl }}
+            - name: PUBLIC_URL
+              value: {{ .Values.limesurvey.publicUrl }}
+            - name: URL_FORMAT
+              value: {{ .Values.limesurvey.urlFormat }}
+            - name: SHOW_SCRIPT_NAME
+              value: {{ .Values.limesurvey.showScriptName }}
+            {{- if .Values.limesurvey.encrypt.keypair }}
+            - name: ENCRYPT_KEYPAIR
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "limesurvey.secretName" . }}
+                  key: limesurvey-encrypt-keypair
+            {{- end }}
+            {{- if .Values.limesurvey.encrypt.publicKey }}
+            - name: ENCRYPT_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "limesurvey.secretName" . }}
+                  key: limesurvey-encrypt-publickey
+            {{- end }}
+            {{- if .Values.limesurvey.encrypt.secretKey }}
+            - name: ENCRYPT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "limesurvey.secretName" . }}
+                  key: limesurvey-encrypt-secretkey
+            {{- end }}
             - name: DEBUG
               value: "{{ .Values.limesurvey.debug }}"
             - name: DEBUG_SQL
