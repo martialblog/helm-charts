@@ -74,11 +74,38 @@ limesurvey:
   # LimeSurvey SQL Debug level (0, 1, 2)
   debugSql: 0
 
-podAnnotations: {}
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+persistence:
+  enabled: true
+  # storageClassName: default
+  accessModes:
+    - ReadWriteOnce
+  size: 5Gi
+  annotations: {}
+  finalizers:
+    - kubernetes.io/pvc-protection
+  selectorLabels: {}
+  subPath: ""
+  existingClaim: null
 
-podSecurityContext: {}
+## This allows you to mount additional volumes
+## into the Limesurvey container
+extraVolumeMounts: []
+# - name: extra-volume-0
+#   mountPath: /mnt/volume0
+#   readOnly: true
+#   existingClaim: volume-claim
+# - name: extra-volume-1
+#   mountPath: /mnt/volume1
+#   readOnly: true
+#   hostPath: /usr/shared/
 
-securityContext: {}
+## This allows you to mount additional "emptyDirs"
+## into the Limesurvey container
+extraEmptyDirMounts: []
+# - name: extra-empty-dir
+#   mountPath: /var/lib/foobar
 
 service:
   type: ClusterIP
@@ -108,3 +135,12 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+podAnnotations: {}
+
+## Specify privileges and access control settings
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+podSecurityContext:
+  runAsUser: 33
+  runAsGroup: 33
+  fsGroup: 33
