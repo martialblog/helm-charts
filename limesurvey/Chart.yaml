@@ -7,6 +7,7 @@ appVersion: "5-apache"
 maintainers:
   - email: markus@martialblog.de
     name: Markus
+icon: https://raw.githubusercontent.com/martialblog/helm-charts/master/limesurvey/icon.png
 sources:
   - https://github.com/martialblog/helm-charts
   - https://github.com/martialblog/docker-limesurvey/
