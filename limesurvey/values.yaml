@@ -140,6 +140,7 @@ podAnnotations: {}
 
 ## Specify privileges and access control settings
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+## 33 is the www-data user in Debian-based images
 podSecurityContext:
   runAsUser: 33
   runAsGroup: 33
