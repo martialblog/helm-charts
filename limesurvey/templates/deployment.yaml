@@ -29,8 +29,6 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: limesurvey-apache
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
@@ -47,6 +45,22 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: storage
+              mountPath: "/var/www/html/upload/"
+              {{- if .Values.persistence.subPath }}
+              subPath: {{ .Values.persistence.subPath }}
+              {{- end }}
+          {{- range .Values.extraVolumeMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              subPath: {{ .subPath | default "" }}
+              readOnly: {{ .readOnly }}
+          {{- end }}
+          {{- range .Values.extraEmptyDirMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+          {{- end }}
           env:
             - name: DB_HOST
               value: {{ .Values.externalDatabase.host }}
@@ -114,3 +128,27 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: storage
+      {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "limesurvey.fullname" .) }}
+      {{- else }}
+          emptyDir: {}
+      {{- end -}}
+      {{- range .Values.extraVolumeMounts }}
+        - name: {{ .name }}
+          {{- if .existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .existingClaim }}
+          {{- else if .hostPath }}
+          hostPath:
+            path: {{ .hostPath }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+      {{- end }}
+      {{- range .Values.extraEmptyDirMounts }}
+        - name: {{ .name }}
+          emptyDir: {}
+      {{- end -}}
