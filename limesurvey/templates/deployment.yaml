@@ -62,15 +62,45 @@ spec:
               mountPath: {{ .mountPath }}
           {{- end }}
           env:
+            - name: DB_TYPE
+              {{- if eq .Values.mariadb.enabled true }}
+              value: "mysql"
+              {{- else }}
+              value: {{ .Values.externalDatabase.type }}
+              {{- end }}
             - name: DB_HOST
+              {{- if eq .Values.mariadb.enabled true }}
+              value: {{ include "limesurvey.mariadb.fullname" . }}
+              {{- else }}
               value: {{ .Values.externalDatabase.host }}
+              {{- end }}
+            - name: DB_PORT
+              {{- if eq .Values.mariadb.enabled true }}
+              value: {{ .Values.mariadb.primary.service.port | quote }}
+              {{- else }}
+              value: {{ .Values.externalDatabase.port | quote }}
+              {{- end }}
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ include "limesurvey.databaseSecretName" . }}
+                  {{- if .Values.mariadb.enabled }}
                   key: mariadb-password
+                  {{- else }}
+                  key: db-password
+                  {{- end }}
             - name: DB_USERNAME
+              {{- if eq .Values.mariadb.enabled true }}
+              value: {{ .Values.mariadb.username }}
+              {{- else }}
               value: {{ .Values.externalDatabase.username }}
+              {{- end }}
+            - name: DB_NAME
+              {{- if eq .Values.mariadb.enabled true }}
+              value: {{ .Values.mariadb.auth.database }}
+              {{- else }}
+              value: {{ .Values.externalDatabase.database }}
+              {{- end }}
             - name: ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -89,7 +119,7 @@ spec:
             - name: URL_FORMAT
               value: {{ .Values.limesurvey.urlFormat }}
             - name: SHOW_SCRIPT_NAME
-              value: {{ .Values.limesurvey.showScriptName }}
+              value: {{ .Values.limesurvey.showScriptName | quote }}
             {{- if .Values.limesurvey.encrypt.keypair }}
             - name: ENCRYPT_KEYPAIR
               valueFrom:
