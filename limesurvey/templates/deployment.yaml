@@ -1,3 +1,16 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "limesurvey.fullname" . }}-apache-config
+  labels:
+    {{- include "limesurvey.labels" . | nindent 4 }}
+data:
+  vhost-access-log.conf: |
+    SetEnvIF User-Agent "^kube-probe" dontlog
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined env=!dontlog
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -51,6 +64,9 @@ spec:
               {{- if .Values.persistence.subPath }}
               subPath: {{ .Values.persistence.subPath }}
               {{- end }}
+            - name: apache-config
+              mountPath: "/etc/apache2/conf-enabled/"
+              readOnly: true
           {{- range .Values.extraVolumeMounts }}
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
@@ -135,7 +151,10 @@ spec:
             claimName: {{ .Values.persistence.existingClaim | default (include "limesurvey.fullname" .) }}
       {{- else }}
           emptyDir: {}
-      {{- end -}}
+      {{- end }}
+        - name: apache-config
+          configMap:
+            name: {{ include "limesurvey.fullname" . }}-apache-config
       {{- range .Values.extraVolumeMounts }}
         - name: {{ .name }}
           {{- if .existingClaim }}
@@ -151,4 +170,4 @@ spec:
       {{- range .Values.extraEmptyDirMounts }}
         - name: {{ .name }}
           emptyDir: {}
-      {{- end -}}
+      {{- end }}
