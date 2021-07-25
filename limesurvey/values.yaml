@@ -2,7 +2,11 @@
 
 replicaCount: 1
 
+global:
+  imageRegistry: ""
+
 image:
+  registry: docker.io
   repository: martialblog/limesurvey
   # Specify a imagePullPolicy
   pullPolicy: IfNotPresent
