@@ -25,6 +25,8 @@ serviceAccount:
 mariadb:
   # Deploy a MariaDB server to satisfy the database requirements
   enabled: false
+  # for all possible configuration values, see:
+  # https://github.com/bitnami/charts/blob/master/bitnami/mariadb/values.yaml
   auth:
     # MariaDB root password
     rootPassword: ""
@@ -33,21 +35,26 @@ mariadb:
     # MariaDB custom user name
     username: limesurvey
     # MariaDB custom user password
-    password: ""
-    # TODO: persistence
+    password: "your-super-secret-password"
 
+## Use an externally provisioned database instance
+## Ignored when mariadb.enabled is set to true
 externalDatabase:
+  # Type of external database ("mysql" or "psql")
+  type: mysql
   # External Database server host
-  host: mariadb
+  host: mariadb.example.com
   # External Database server port
   port: 3306
   # External Database username
   username: limesurvey
   # External Database user password
+  # (ignored when existingSecret is set)
   password: "your-super-secret-password"
   # External Database database name
   database: limesurvey
-  # TODO
+  # Use an existing secret for retrieving the database password.
+  # The secret must contain the field "db-password".
   existingSecret: null
 
 # Limesurvey Application configuration
@@ -65,8 +72,9 @@ limesurvey:
     keypair: ""
     publicKey: ""
     secretKey: ""
-  publicUrl: http://localhost
-  baseUrl: http://localhost
+  existingSecret: null
+  publicUrl: http://localhost:8080
+  baseUrl: http://localhost:8080
   urlFormat: "path"
   showScriptName: ""
   # LimeSurvey Debug level (0, 1, 2)
@@ -77,6 +85,7 @@ limesurvey:
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 persistence:
+  # Enable persistence with PVC. If false, uses emptyDir instead.
   enabled: true
   # storageClassName: default
   accessModes:

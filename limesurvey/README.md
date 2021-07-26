@@ -62,15 +62,27 @@ This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.
 
 ### Database Parameters
 
-### External database support
+LimeSurvey requires a [MySQL- or PostgreSQL-compatible database](https://manual.limesurvey.org/Installation_-_LimeSurvey_CE#Create_a_database_user).
 
-You may want to have LimeSurvey connect to an external database rather than installing one inside your cluster.
+You can either provide your own:
+```yaml
+externalDatabase:
+  host: hostname.example
+  database: limesurvey-db
+  username: limesurvey
+  password: "your-super-secret-password"
+```
 
+or you can let the Helm chart provision one for you (based on [Bitnami MariaDB Helm chart](https://artifacthub.io/packages/helm/bitnami/mariadb)):
+```yaml
+mariadb:
+  enabled: true
+  auth:
+    rootPassword: "please-change-me"
+    database: limesurvey
+    username: limesurvey
+    password: "please-change-me"
 ```
-mariadb.enabled=false
-externalDatabase.host=database-host
-externalDatabase.user=limesurvey
-externalDatabase.password=secure-password
-externalDatabase.database=limesurvey
-externalDatabase.port=3306
-```
+
+In both cases the application will automatically be configured to use these credentials.
+Please refer to the [values.yaml](./values.yaml) for all possible configuration values.
