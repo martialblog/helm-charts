@@ -92,3 +92,19 @@ Return the LimeSurvey Secret Name
     {{- printf "%s-app-secrets" (include "limesurvey.fullname" .) -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Return the full URL of the LimeSurvey image (including registry, image and tag)
+*/}}
+{{- define "limesurvey.imageUrl" }}
+{{- $registry := .Values.global.imageRegistry | default .Values.image.registry }}
+{{- $registry = trimSuffix "/" $registry }}
+{{- $image := .Values.image.repository }}
+{{- $tag := .Values.image.tag | default .Chart.AppVersion }}
+{{- if eq $registry "" -}}
+    {{/* useful when you want to use a locally built image */}}
+    {{- printf "%s:%s" $image $tag -}}
+{{- else -}}
+    {{- printf "%s/%s:%s" $registry $image $tag -}}
+{{- end -}}
+{{- end }}

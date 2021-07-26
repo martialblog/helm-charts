@@ -27,9 +27,31 @@ spec:
       serviceAccountName: {{ include "limesurvey.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: wait-for-db
+          image: {{ include "limesurvey.imageUrl" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['/bin/sh', '-c',
+          'until nc -z -v -w30 "$DB_HOST" "$DB_PORT"; do
+          echo "Info: Waiting for database connection...";
+          sleep 5;
+          done']
+          env:
+            - name: DB_HOST
+              {{- if eq .Values.mariadb.enabled true }}
+              value: {{ include "limesurvey.mariadb.fullname" . }}
+              {{- else }}
+              value: {{ .Values.externalDatabase.host }}
+              {{- end }}
+            - name: DB_PORT
+              {{- if eq .Values.mariadb.enabled true }}
+              value: {{ .Values.mariadb.primary.service.port | quote }}
+              {{- else }}
+              value: {{ .Values.externalDatabase.port | quote }}
+              {{- end }}
       containers:
         - name: limesurvey-apache
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ include "limesurvey.imageUrl" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
