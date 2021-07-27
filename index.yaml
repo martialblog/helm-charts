@@ -1,0 +1,27 @@
+apiVersion: v1
+entries:
+  limesurvey:
+  - apiVersion: v2
+    appVersion: 5-apache
+    created: "2021-07-27T07:17:30.418397123Z"
+    dependencies:
+    - condition: mariadb.enabled
+      name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: 9.x.x
+    description: Limesurvey is the number one open-source survey software.
+    digest: 0c1621452672d61ef022ce317a348d3612e80df8f3f2d6ca961c57cd4a1f59fd
+    icon: https://raw.githubusercontent.com/martialblog/helm-charts/master/limesurvey/icon.png
+    maintainers:
+    - email: markus@martialblog.de
+      name: Markus
+    name: limesurvey
+    sources:
+    - https://github.com/martialblog/helm-charts
+    - https://github.com/martialblog/docker-limesurvey/
+    - https://limesurvey.org/
+    type: application
+    urls:
+    - https://github.com/martialblog/helm-charts/releases/download/limesurvey-0.3.0/limesurvey-0.3.0.tgz
+    version: 0.3.0
+generated: "2021-07-27T07:17:30.418402823Z"
