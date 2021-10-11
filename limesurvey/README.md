@@ -50,6 +50,7 @@ This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.
 | `limesurvey.admin.email`               | LimeSurvey initial Admin Email                  | `admin@example.com` |
 | `limesurvey.publicUrl`                 | LimeSurvey Public URL for public scripts        | `nil` |
 | `limesurvey.baseUrl`                   | LimeSurvey Application Base URL                 | `nil` |
+| `limesurvey.mysqlEngine`               | LimeSurvey MySQL engine for survey tables       | `nil` |
 | `limesurvey.urlFormat`                 | LimeSurvey URL Format (path|get)                | `nil` |
 | `limesurvey.showScriptName`            | LimeSurvey Script name in URL (true|false)      | `true` |
 | `limesurvey.debug`                     | LimeSurvey Debug level (0, 1, 2)                | `0` |

@@ -123,6 +123,8 @@ spec:
               {{- else }}
               value: {{ .Values.externalDatabase.database }}
               {{- end }}
+            - name: DB_MYSQL_ENGINE
+              value: {{ .Values.limesurvey.mysqlEngine }}
             - name: ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
