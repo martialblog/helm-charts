@@ -85,6 +85,8 @@ limesurvey:
   debug: 0
   # LimeSurvey SQL Debug level (0, 1, 2)
   debugSql: 0
+  # Value should be either MyISAM or InnoDB
+  mysqlEngine: MyISAM
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
