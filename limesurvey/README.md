@@ -94,7 +94,11 @@ This Helm chart is tested with [helm unittest](https://github.com/quintush/helm-
 You can find the test specifications in the `./tests/` directory.
 Tests are automatically run in CI.
 To run the tests locally, use the following command:
+
 ```
-helm dependency build # required for pulling mariadb chart
+# Required for pulling the MariaDB chart
+# helm repo add bitnami https://charts.bitnami.com/bitnami
+helm dependency build
+
 podman run --rm -v "${PWD}:/apps" docker.io/quintush/helm-unittest:3.6.3-0.2.7 --helm3 .
 ````

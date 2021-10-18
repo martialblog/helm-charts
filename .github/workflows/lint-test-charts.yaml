@@ -1,0 +1,32 @@
+name: Lint and Test Charts
+
+on: [push, pull_request]
+
+jobs:
+  lint-and-unittest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Fetch history
+        run: git fetch --prune --unshallow
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.1.0
+
+      - name: Run chart-testing (lint)
+        run: ct lint --config .github/ct-lint.yaml
+
+      # Running the unittest immediately afterwards so we don't need to
+      # checkout the repository and download mariadb chart twice
+      - name: Run helm-unittest
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: docker.io
+          image: quintush/helm-unittest:3.6.3-0.2.7
+          options: -v ${{ github.workspace }}:/apps
+          run: |
+            set -x
+            cd limesurvey
+            helm unittest --helm3 .

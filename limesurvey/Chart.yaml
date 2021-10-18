@@ -2,11 +2,11 @@ apiVersion: v2
 name: limesurvey
 description: Limesurvey is the number one open-source survey software.
 type: application
-version: 0.3.0
+version: 0.3.1
 appVersion: "5-apache"
 maintainers:
   - email: markus@martialblog.de
-    name: Markus
+    name: martialblog
 icon: https://raw.githubusercontent.com/martialblog/helm-charts/master/limesurvey/icon.png
 sources:
   - https://github.com/martialblog/helm-charts
