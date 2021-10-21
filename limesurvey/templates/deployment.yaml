@@ -144,21 +144,21 @@ spec:
               value: {{ .Values.limesurvey.urlFormat }}
             - name: SHOW_SCRIPT_NAME
               value: {{ .Values.limesurvey.showScriptName | quote }}
-            {{- if .Values.limesurvey.encrypt.keypair }}
+            {{- if (or .Values.limesurvey.encrypt.keypair .Values.limesurvey.existingSecret) }}
             - name: ENCRYPT_KEYPAIR
               valueFrom:
                 secretKeyRef:
                   name: {{ include "limesurvey.secretName" . }}
                   key: limesurvey-encrypt-keypair
             {{- end }}
-            {{- if .Values.limesurvey.encrypt.publicKey }}
+            {{- if (or .Values.limesurvey.encrypt.publicKey .Values.limesurvey.existingSecret) }}
             - name: ENCRYPT_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "limesurvey.secretName" . }}
                   key: limesurvey-encrypt-publickey
             {{- end }}
-            {{- if .Values.limesurvey.encrypt.secretKey }}
+            {{- if (or .Values.limesurvey.encrypt.secretKey .Values.limesurvey.existingSecret) }}
             - name: ENCRYPT_SECRET_KEY
               valueFrom:
                 secretKeyRef:
