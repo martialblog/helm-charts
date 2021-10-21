@@ -168,7 +168,7 @@ spec:
             - name: DEBUG
               value: "{{ .Values.limesurvey.debug }}"
             - name: DEBUG_SQL
-              value: "{{ .Values.limesurvey.debug_sql }}"
+              value: "{{ .Values.limesurvey.debugSql }}"
 
       {{- with .Values.nodeSelector }}
       nodeSelector:
