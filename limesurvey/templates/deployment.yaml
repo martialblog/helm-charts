@@ -165,6 +165,20 @@ spec:
                   name: {{ include "limesurvey.secretName" . }}
                   key: limesurvey-encrypt-secretkey
             {{- end }}
+            {{- if (or .Values.limesurvey.encrypt.nonce .Values.limesurvey.existingSecret) }}
+            - name: ENCRYPT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "limesurvey.secretName" . }}
+                  key: limesurvey-encrypt-nonce
+            {{- end }}
+            {{- if (or .Values.limesurvey.encrypt.secretBoxKey .Values.limesurvey.existingSecret) }}
+            - name: ENCRYPT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "limesurvey.secretName" . }}
+                  key: limesurvey-encrypt-secretboxkey
+            {{- end }}
             - name: DEBUG
               value: "{{ .Values.limesurvey.debug }}"
             - name: DEBUG_SQL
