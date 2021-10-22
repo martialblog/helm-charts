@@ -64,6 +64,46 @@ tests:
             name: DB_PASSWORD
           any: true
 
+  - it: deployment with encryption keys
+    release:
+      name: my-ls
+    set:
+      ### Helm values:
+      limesurvey:
+        encrypt:
+          keypair: 'keypair'
+          publicKey: 'public-key'
+          secretKey: 'secret-key'
+        debug: 123
+        debugSql: 456
+      ###
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ENCRYPT_KEYPAIR
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ENCRYPT_PUBLIC_KEY
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ENCRYPT_SECRET_KEY
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            value: "123"
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            value: "456"
+          any: true
+
   - it: deployment with custom PVC and image
     release:
       name: my-ls

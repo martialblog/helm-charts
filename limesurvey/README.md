@@ -97,7 +97,7 @@ To run the tests locally, use the following command:
 
 ```
 # Required for pulling the MariaDB chart
-# helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add bitnami https://charts.bitnami.com/bitnami
 helm dependency build
 
 podman run --rm -v "${PWD}:/apps" docker.io/quintush/helm-unittest:3.6.3-0.2.7 --helm3 .
