@@ -87,3 +87,18 @@ mariadb:
 
 In both cases the application will automatically be configured to use these credentials.
 Please refer to the [values.yaml](./values.yaml) for all possible configuration values.
+
+## Testing
+
+This Helm chart is tested with [helm unittest](https://github.com/quintush/helm-unittest) ([test format spec](https://github.com/quintush/helm-unittest/blob/master/DOCUMENT.md)).
+You can find the test specifications in the `./tests/` directory.
+Tests are automatically run in CI.
+To run the tests locally, use the following command:
+
+```
+# Required for pulling the MariaDB chart
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm dependency build
+
+podman run --rm -v "${PWD}:/apps" docker.io/quintush/helm-unittest:3.6.3-0.2.7 --helm3 .
+````

@@ -1,9 +1,0 @@
----
-mariadb:
-  enabled: false
-
-limesurvey:
-  debug: 0
-
-persistence:
-  enabled: false

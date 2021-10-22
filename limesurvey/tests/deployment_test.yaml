@@ -1,0 +1,134 @@
+suite: Test Deployment Manifest
+templates:
+  - deployment.yaml
+tests:
+  - it: default deployment
+    release:
+      name: my-ls
+    asserts:
+      - isKind:
+          of: Deployment
+      - matchRegex:
+          path: metadata.name
+          pattern: my-ls-limesurvey
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/instance
+          value: my-ls
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          pattern: '^docker.io/martialblog/limesurvey:.*'
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent
+      # unfortunately helm-unittest can't properly check the structure of nested arrays yet
+      # so we can only make some very basic checks here
+      # https://github.com/quintush/helm-unittest/issues/85
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: DB_HOST
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: DB_PORT
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: DB_PASSWORD
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: DB_PASSWORD
+          any: true
+
+  - it: deployment with mariadb
+    release:
+      name: my-ls
+    set:
+      ### Helm values:
+      mariadb:
+        enabled: true
+      ###
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            value: my-ls-mariadb
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: DB_PASSWORD
+          any: true
+
+  - it: deployment with encryption keys
+    release:
+      name: my-ls
+    set:
+      ### Helm values:
+      limesurvey:
+        encrypt:
+          keypair: 'keypair'
+          publicKey: 'public-key'
+          secretKey: 'secret-key'
+        debug: 123
+        debugSql: 456
+      ###
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ENCRYPT_KEYPAIR
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ENCRYPT_PUBLIC_KEY
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ENCRYPT_SECRET_KEY
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            value: "123"
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            value: "456"
+          any: true
+
+  - it: deployment with custom PVC and image
+    release:
+      name: my-ls
+    set:
+      ### Helm values:
+      image:
+        registry: gchr.io
+        tag: debian-ramesses-the-third
+      persistence:
+        enabled: true
+        existingClaim: foobar
+      ###
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: gchr.io/martialblog/limesurvey:debian-ramesses-the-third
+      - equal:
+          path: spec.template.spec.containers[0].volumeMounts[0].name
+          value: storage
+      - equal:
+          path: spec.template.spec.containers[0].volumeMounts[0].mountPath
+          value: "/var/www/html/upload/"
+      - equal:
+          path: spec.template.spec.volumes[0].name
+          value: storage
+      - equal:
+          path: spec.template.spec.volumes[0].persistentVolumeClaim.claimName
+          value: foobar
