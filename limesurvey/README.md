@@ -58,6 +58,8 @@ This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.
 | `limesurvey.encrypt.keypair`           | LimeSurvey Data encryption keypair              | `nil` |
 | `limesurvey.encrypt.publicKey`         | LimeSurvey Data encryption public key           | `nil` |
 | `limesurvey.encrypt.secretKey`         | LimeSurvey Data encryption secret key           | `nil` |
+| `limesurvey.encrypt.nonce`             | LimeSurvey Data encryption nonce                | `nil` |
+| `limesurvey.encrypt.secretBoxKey`      | LimeSurvey Data encryption secret box key       | `nil` |
 
 ### Persistence Parameters
 

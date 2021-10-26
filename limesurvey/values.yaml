@@ -76,6 +76,8 @@ limesurvey:
     keypair: ""
     publicKey: ""
     secretKey: ""
+    nonce: ""
+    secretBoxKey: ""
   existingSecret: null
   publicUrl: http://localhost:8080
   baseUrl: http://localhost:8080
