@@ -73,6 +73,12 @@ spec:
               {{- if .Values.persistence.subPath }}
               subPath: {{ .Values.persistence.subPath }}
               {{- end }}
+          {{- if .Values.limesurvey.ldapConfigMap }}
+            - name: ldap-config
+              mountPath: "/var/www/html/application/config/ldap.php"
+              subPath: "ldap.php"
+              readOnly: true
+          {{- end }}
           {{- range .Values.extraVolumeMounts }}
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
@@ -197,6 +203,11 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
+      {{- if .Values.limesurvey.ldapConfigMap }}
+        - name: ldap-config
+          configMap:
+            name: {{ include "limesurvey.ldapConfigMapName" . }}
+      {{- end }}
         - name: storage
       {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:

@@ -1,0 +1,11 @@
+{{- if .Values.limesurvey.ldapConfigMap }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "limesurvey.ldapConfigMapName" . }}
+  labels:
+    {{- include "limesurvey.labels" . | nindent 4 }}
+data:
+  ldap.php:
+    {{ .Values.ldapConfigMap | nindent 4 }}
+{{- end }}

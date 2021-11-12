@@ -94,6 +94,17 @@ Return the LimeSurvey Secret Name
 {{- end -}}
 
 {{/*
+Return the LimeSurvey LDAP ConfigMap Name
+*/}}
+{{- define "limesurvey.ldapConfigMapName" -}}
+{{- if .Values.limesurvey.ldapConfigMapName }}
+    {{- printf "%s" .Values.limesurvey.ldapConfigMapName -}}
+{{- else -}}
+{{- printf "%s-ldap-config-map" (include "limesurvey.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Return the full URL of the LimeSurvey image (including registry, image and tag)
 */}}
 {{- define "limesurvey.imageUrl" }}

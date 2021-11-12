@@ -132,3 +132,20 @@ tests:
       - equal:
           path: spec.template.spec.volumes[0].persistentVolumeClaim.claimName
           value: foobar
+
+
+  - it: deployment with custom LDAP ConfigMap
+    release:
+      name: my-ls
+    set:
+      ### Helm values:
+      limesurvey:
+        ldapConfigMap: |
+          $ldap_server[$serverId]['server'] = "ldap.mycompany.org";
+          $ldap_server[$serverId]['port'] = "636";
+          $ldap_server[$serverId]['protoversion'] = "ldapv2";
+      ###
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].volumeMounts[1].mountPath
+          value: "/var/www/html/application/config/ldap.php"

@@ -60,6 +60,7 @@ This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.
 | `limesurvey.encrypt.secretKey`         | LimeSurvey Data encryption secret key           | `nil` |
 | `limesurvey.encrypt.nonce`             | LimeSurvey Data encryption nonce                | `nil` |
 | `limesurvey.encrypt.secretBoxKey`      | LimeSurvey Data encryption secret box key       | `nil` |
+| `limesurvey.ldapConfigMap`             | ConfigMap for ldap.php; LimeSurvey LDAP configuration | `nil` |
 
 ### Persistence Parameters
 
@@ -89,6 +90,18 @@ mariadb:
 
 In both cases the application will automatically be configured to use these credentials.
 Please refer to the [values.yaml](./values.yaml) for all possible configuration values.
+
+### Configure LDAP
+
+You can provide an LDAP configuration via a ConfigMap. The content of `ldapConfigMap` will be mounted to `application/configuration/ldap.php`:
+
+```yaml
+limesurvey:
+  ldapConfigMap: |
+    $ldap_server[$serverId]['server'] = "ldap.mycompany.org";
+    $ldap_server[$serverId]['port'] = "636";
+    $ldap_server[$serverId]['protoversion'] = "ldapv2";
+```
 
 ## Testing
 
