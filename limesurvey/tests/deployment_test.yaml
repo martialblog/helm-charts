@@ -132,3 +132,24 @@ tests:
       - equal:
           path: spec.template.spec.volumes[0].persistentVolumeClaim.claimName
           value: foobar
+
+  - it: deployment with custom configuration
+    release:
+      name: my-ls
+    set:
+      ### Helm values:
+      limesurvey:
+        tableSession: true
+        tablePrefix: "foobar_"
+      ###
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            value: "foobar_"
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: TABLE_SESSION
+          any: true

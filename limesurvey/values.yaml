@@ -83,6 +83,10 @@ limesurvey:
   baseUrl: http://localhost:8080
   urlFormat: "path"
   showScriptName: ""
+  # Database table prefix; set this to a single whitespace if you don't want a table prefix.
+  tablePrefix: "lime_"
+  # Enable table sessions (Storing sessions in the database)
+  tableSession: false
   # LimeSurvey Debug level (0, 1, 2)
   debug: 0
   # LimeSurvey SQL Debug level (0, 1, 2)

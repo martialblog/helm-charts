@@ -123,6 +123,8 @@ spec:
               {{- else }}
               value: {{ .Values.externalDatabase.database }}
               {{- end }}
+            - name: DB_TABLE_PREFIX
+              value: {{ .Values.limesurvey.tablePrefix }}
             - name: DB_MYSQL_ENGINE
               value: {{ .Values.limesurvey.mysqlEngine }}
             - name: ADMIN_PASSWORD
@@ -142,6 +144,10 @@ spec:
               value: {{ .Values.limesurvey.publicUrl }}
             - name: URL_FORMAT
               value: {{ .Values.limesurvey.urlFormat }}
+              {{- if eq .Values.limesurvey.tableSession true }}
+            - name: TABLE_SESSION
+              value: {{ .Values.limesurvey.tableSession }}
+              {{- end }}
             - name: SHOW_SCRIPT_NAME
               value: {{ .Values.limesurvey.showScriptName | quote }}
             {{- if (or .Values.limesurvey.encrypt.keypair .Values.limesurvey.existingSecret) }}
