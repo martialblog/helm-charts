@@ -53,6 +53,8 @@ This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.
 | `limesurvey.mysqlEngine`               | MySQL engine used for survey tables (MyISAM or InnoDB)       | `MyISAM` |
 | `limesurvey.urlFormat`                 | LimeSurvey URL Format (path|get)                | `nil` |
 | `limesurvey.showScriptName`            | LimeSurvey Script name in URL (true|false)      | `true` |
+| `limesurvey.tablePrefix`               | LimeSurvey Database table prefix; set this to a single whitespace if you don't want a table prefix. | `lime_` |
+| `limesurvey.tableSession`              | LimeSurvey Table sessions; For storing sessions in the database  | `false` |
 | `limesurvey.debug`                     | LimeSurvey Debug level (0, 1, 2)                | `0` |
 | `limesurvey.debugSql`                  | LimeSurvey SQL Debug level (0, 1, 2)            | `0` |
 | `limesurvey.encrypt.keypair`           | LimeSurvey Data encryption keypair              | `nil` |
