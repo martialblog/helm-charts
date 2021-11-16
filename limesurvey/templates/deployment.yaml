@@ -138,6 +138,8 @@ spec:
               value: {{ .Values.limesurvey.admin.name }}
             - name: ADMIN_EMAIL
               value: {{ .Values.limesurvey.admin.email }}
+            - name: LISTEN_PORT
+              value: {{ .Values.limesurvey.listenPort }}
             - name: BASE_URL
               value: {{ .Values.limesurvey.baseUrl }}
             - name: PUBLIC_URL

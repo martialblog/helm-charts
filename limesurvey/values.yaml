@@ -72,6 +72,7 @@ limesurvey:
   # LimeSurvey permits the encryption of personal data
   # These values will be created as secret
   # https://manual.limesurvey.org/Data_encryption
+  # Not required for LimeSurvey 3
   encrypt:
     keypair: ""
     publicKey: ""
@@ -79,6 +80,7 @@ limesurvey:
     nonce: ""
     secretBoxKey: ""
   existingSecret: null
+  listenPort: 8080
   publicUrl: http://localhost:8080
   baseUrl: http://localhost:8080
   urlFormat: "path"
