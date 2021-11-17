@@ -141,6 +141,7 @@ tests:
       limesurvey:
         tableSession: true
         tablePrefix: "foobar_"
+        listenPort: 9999
       ###
     asserts:
       - contains:
@@ -152,4 +153,9 @@ tests:
           path: spec.template.spec.containers[0].env
           content:
             name: TABLE_SESSION
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            value: 9999
           any: true

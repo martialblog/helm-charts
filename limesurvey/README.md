@@ -48,6 +48,7 @@ This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.
 | `limesurvey.admin.password`            | LimeSurvey initial Admin Password               | `nil`               |
 | `limesurvey.admin.name`                | LimeSurvey initial Admin Full Name              | `Administrator`     |
 | `limesurvey.admin.email`               | LimeSurvey initial Admin Email                  | `admin@example.com` |
+| `limesurvey.listenPort`                | LimeSurvey Container port for webserver         | `8080` |
 | `limesurvey.publicUrl`                 | LimeSurvey Public URL for public scripts        | `nil` |
 | `limesurvey.baseUrl`                   | LimeSurvey Application Base URL                 | `nil` |
 | `limesurvey.mysqlEngine`               | MySQL engine used for survey tables (MyISAM or InnoDB)       | `MyISAM` |
