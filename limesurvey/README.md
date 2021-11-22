@@ -97,7 +97,7 @@ Please refer to the [values.yaml](./values.yaml) for all possible configuration 
 
 ### LimeSurvey Administrator Password
 
-If the initial Admin Password `limesurvey.admin.password` is not provided it will be set to a random string. You extract the password from the Secret:
+If the initial Admin Password `limesurvey.admin.password` is not provided it will be set to a random string. You can extract the password from the Secret:
 
 ```bash
 kubectl get secrets --template={{.data.limesurvey-admin-password}} | base64 -d
