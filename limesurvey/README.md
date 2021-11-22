@@ -72,10 +72,10 @@ This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.
 | `persistence.accessModes`                     | Persistent Volume access modes                                                                  | `[ReadWriteOnce]`       |
 | `persistence.size`                            | Persistent Volume size                                                                          | `5Gi`                   |
 | `persistence.storageClassName`                | Persistent Volume storage class name                                                            | `nil`                   |
-| `persistence.subPath`                         | Persistent Volume Sub Path                                                                      | `nil`                   |
+| `persistence.subPath`                         | Persistent Volume sub path                                                                      | `nil`                   |
 | `persistence.finalizers`                      | Persistent Volume finalizers                                                                    | `[kubernetes.io/pvc-protection]` |
 | `persistence.selectorLabels`                  | Persistent Volume selector labels                                                               | `{}`                    |
-| `persistence.annotations`                     | Custom PVC data source                                                                          | `{}`                    |
+| `persistence.annotations`                     | persistent volume claim annotations                                                             | `{}`                    |
 | `persistence.existingClaim`                   | The name of an existing PVC to use for persistence                                              | `nil`                   |
 
 ### Database Parameters
