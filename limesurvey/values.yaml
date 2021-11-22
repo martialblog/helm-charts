@@ -98,10 +98,11 @@ limesurvey:
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+## Used for LimeSurvey Uploads
 persistence:
   # Enable persistence with PVC. If false, uses emptyDir instead.
   enabled: true
-  # storageClassName: default
+  storageClassName: null
   accessModes:
     - ReadWriteOnce
   size: 5Gi

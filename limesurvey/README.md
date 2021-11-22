@@ -66,6 +66,18 @@ This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.
 
 ### Persistence Parameters
 
+| Name                                          | Description                                                                                     | Value                   |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------- |
+| `persistence.enabled`                         | Enable persistence using Persistent Volume Claims                                               | `true`                  |
+| `persistence.accessModes`                     | Persistent Volume access modes                                                                  | `[ReadWriteOnce]`       |
+| `persistence.size`                            | Persistent Volume size                                                                          | `5Gi`                   |
+| `persistence.storageClassName`                | Persistent Volume storage class name                                                            | `nil`                   |
+| `persistence.subPath`                         | Persistent Volume sub path                                                                      | `nil`                   |
+| `persistence.finalizers`                      | Persistent Volume finalizers                                                                    | `[kubernetes.io/pvc-protection]` |
+| `persistence.selectorLabels`                  | Persistent Volume selector labels                                                               | `{}`                    |
+| `persistence.annotations`                     | persistent volume claim annotations                                                             | `{}`                    |
+| `persistence.existingClaim`                   | The name of an existing PVC to use for persistence                                              | `nil`                   |
+
 ### Database Parameters
 
 LimeSurvey requires a [MySQL- or PostgreSQL-compatible database](https://manual.limesurvey.org/Installation_-_LimeSurvey_CE#Create_a_database_user).
