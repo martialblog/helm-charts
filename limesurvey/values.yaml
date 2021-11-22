@@ -39,7 +39,7 @@ mariadb:
     # MariaDB custom user name
     username: limesurvey
     # MariaDB custom user password
-    password: "your-super-secret-password"
+    password: null
 
 ## Use an externally provisioned database instance
 ## Ignored when mariadb.enabled is set to true
@@ -54,7 +54,7 @@ externalDatabase:
   username: limesurvey
   # External Database user password
   # (ignored when existingSecret is set)
-  password: "your-super-secret-password"
+  password: null
   # External Database database name
   database: limesurvey
   # Use an existing secret for retrieving the database password.
@@ -66,7 +66,7 @@ limesurvey:
   # LimeSurvey initial Administrator Account
   admin:
     user: admin
-    password: admin
+    password: null
     name: Administrator
     email: admin@example.com
   # LimeSurvey permits the encryption of personal data

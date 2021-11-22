@@ -93,6 +93,16 @@ mariadb:
 In both cases the application will automatically be configured to use these credentials.
 Please refer to the [values.yaml](./values.yaml) for all possible configuration values.
 
+## Configuration and installation details
+
+### LimeSurvey Administrator Password
+
+If the initial Admin Password `limesurvey.admin.password` is not provided it will be set to a random string. You can extract the password from the Secret:
+
+```bash
+kubectl get secrets --template={{.data.limesurvey-admin-password}} | base64 -d
+```
+
 ## Testing
 
 This Helm chart is tested with [helm unittest](https://github.com/quintush/helm-unittest) ([test format spec](https://github.com/quintush/helm-unittest/blob/master/DOCUMENT.md)).
