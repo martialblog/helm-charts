@@ -138,6 +138,8 @@ tests:
       name: my-ls
     set:
       ### Helm values:
+      image:
+        tag: "3-apache"
       limesurvey:
         tableSession: true
         tablePrefix: "foobar_"
@@ -159,3 +161,6 @@ tests:
           content:
             value: "9999"
           any: true
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/version
+          value: "3-apache"
