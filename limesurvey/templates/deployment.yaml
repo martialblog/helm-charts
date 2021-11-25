@@ -124,7 +124,7 @@ spec:
               value: {{ .Values.externalDatabase.database }}
               {{- end }}
             - name: DB_TABLE_PREFIX
-              value: {{ .Values.limesurvey.tablePrefix }}
+              value: {{ .Values.limesurvey.tablePrefix | quote }}
             - name: DB_MYSQL_ENGINE
               value: {{ .Values.limesurvey.mysqlEngine }}
             - name: ADMIN_PASSWORD
