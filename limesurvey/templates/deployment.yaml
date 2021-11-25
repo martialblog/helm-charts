@@ -140,18 +140,24 @@ spec:
               value: {{ .Values.limesurvey.admin.email }}
             - name: LISTEN_PORT
               value: {{ .Values.limesurvey.listenPort | quote }}
+            {{- if .Values.limesurvey.baseUrl }}
             - name: BASE_URL
               value: {{ .Values.limesurvey.baseUrl }}
+            {{- end }}
+            {{- if .Values.limesurvey.publicUrl }}
             - name: PUBLIC_URL
               value: {{ .Values.limesurvey.publicUrl }}
+            {{- end }}
             - name: URL_FORMAT
               value: {{ .Values.limesurvey.urlFormat }}
               {{- if eq .Values.limesurvey.tableSession true }}
             - name: TABLE_SESSION
               value: {{ .Values.limesurvey.tableSession }}
               {{- end }}
+            {{- if .Values.limesurvey.showScriptName }}
             - name: SHOW_SCRIPT_NAME
               value: {{ .Values.limesurvey.showScriptName | quote }}
+            {{- end }}
             {{- if (or .Values.limesurvey.encrypt.keypair .Values.limesurvey.existingSecret) }}
             - name: ENCRYPT_KEYPAIR
               valueFrom:
