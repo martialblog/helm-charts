@@ -45,9 +45,9 @@ spec:
               {{- end }}
             - name: DB_PORT
               {{- if eq .Values.mariadb.enabled true }}
-              value: {{ .Values.mariadb.primary.service.port | quote }}
+              value: {{ coalesce .Values.mariadb.primary.service.ports.mysql .Values.mariadb.primary.service.port 3306 | quote }}
               {{- else }}
-              value: {{ .Values.externalDatabase.port | quote }}
+              value: {{ coalesce .Values.externalDatabase.port 3306 | quote }}
               {{- end }}
       containers:
         - name: limesurvey-apache
@@ -98,9 +98,9 @@ spec:
               {{- end }}
             - name: DB_PORT
               {{- if eq .Values.mariadb.enabled true }}
-              value: {{ .Values.mariadb.primary.service.port | quote }}
+              value: {{ coalesce .Values.mariadb.primary.service.ports.mysql .Values.mariadb.primary.service.port 3306 | quote }}
               {{- else }}
-              value: {{ .Values.externalDatabase.port | quote }}
+              value: {{ coalesce .Values.externalDatabase.port 3306 | quote }}
               {{- end }}
             - name: DB_PASSWORD
               valueFrom:
