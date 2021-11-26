@@ -34,8 +34,6 @@ It also packages the [Bitnami MariaDB chart](https://artifacthub.io/packages/hel
 | Name                      | Description                                     | Value |
 | ------------------------- | ----------------------------------------------- | ----- |
 | `global.imageRegistry`    | Global Docker image registry                    | `nil` |
-| `global.imagePullSecrets` | Global Docker registry secret names as an array | `[]`  |
-| `global.storageClass`     | Global StorageClass for Persistent Volume(s)    | `nil` |
 
 ### LimeSurvey Image parameters
 
@@ -84,6 +82,42 @@ It also packages the [Bitnami MariaDB chart](https://artifacthub.io/packages/hel
 | `persistence.selectorLabels`                  | Persistent Volume selector labels                                                               | `{}`                    |
 | `persistence.annotations`                     | persistent volume claim annotations                                                             | `{}`                    |
 | `persistence.existingClaim`                   | The name of an existing PVC to use for persistence                                              | `nil`                   |
+
+### Traffic Exposure Parameters
+
+| Name                      | Description                                     | Value |
+| ------------------------- | ----------------------------------------------- | ----- |
+| `service.type`        | LimeSurvey service type                             | `ClusterIP` |
+| `service.port`        | LimeSurvey service port                             | `80` |
+| `ingress.enabled`     | Enable ingress record generation for LimeSurvey     | `false` |
+| `ingress.className`   | IngressClass that will be be used to implement the Ingress | `""` |
+| `ingress.hosts`       | An array with hosts for the Ingress                 | `limesurvey.local` |
+| `ingress.annotations` | Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations. | `{}` |
+| `ingress.tls`         | Enable TLS configuration for the host defined at `ingress.hostname` parameter | `false` |
+
+### Other parameters
+
+| Name                      | Description                                      | Value |
+| ------------------------- | ------------------------------------------------ | ----- |
+| `imagePullSecrets`        | Docker registry secret names as an array         | `[]`  |
+| `nameOverride`            | String to override the Chart Name                | `nil` |
+| `fullnameOverride`        | String to fully override the Chart Name          | `nil` |
+| `extraVolumeMounts`       | Additional volumes as an array                   | `[]`  |
+| `extraEmptyDirMounts`     | Additional emptyDir volumes as an array          | `[]`  |
+| `nodeSelector`            | Node labels for pod assignment                   | `{}`  |
+| `tolerations`             | Tolerations for pod assignment                   | `{}`  |
+| `affinity`                | Affinity for pod assignment                      | `{}`  |
+| `podAnnotations`          |  Annotations for LimeSurvey pods                 | `[]`  |
+| `replicaCount`            | Number of LimeSurvey replicas to deploy          | `1`   |
+| `autoscaling.enabled`     | Enable Horizontal POD autoscaling for LimeSurvey | `false` |
+| `autoscaling.minReplicas` | Minimum number of LimeSurvey replicas            | `1`   |
+| `autoscaling.maxReplicas` | Maximum number of LimeSurvey replicas            | `11`  |
+| `autoscaling.targetCPUUtilizationPercentage`   | Target CPU utilization percentage    | `80`   |
+| `podSecurityContext.fsGroup`    | Set LimeSurvey pod's Security Context fsGroup       | `33`   |
+| `podSecurityContext.runAsUser`  | Set LimeSurvey pod's Security Context runAsUser     | `33`   |
+| `podSecurityContext.runAsGroup` | Set LimeSurvey pod's Security Context runAsGroup    | `33`   |
+| `containerSecurityContext.enabled`   | Enable LimeSurvey containers' Security Context | `true` |
+| `containerSecurityContext.allowPrivilegeEscalation` | Default LimeSurvey containers' Security Context | `true` |
 
 ### Database Parameters
 
