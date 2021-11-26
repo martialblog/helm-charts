@@ -146,12 +146,16 @@ ingress:
           pathType: ImplementationSpecific
   tls: []
 
-resources: {}
+resources:
+  limits: {}
+  requests:
+    memory: 512Mi
+    cpu: 300m
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 11
   targetCPUUtilizationPercentage: 80
 
 nodeSelector: {}
