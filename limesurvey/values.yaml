@@ -1,7 +1,5 @@
 # Default values for LimeSurvey.
 
-replicaCount: 1
-
 global:
   imageRegistry: ""
 
@@ -130,6 +128,10 @@ extraVolumeMounts: []
 extraEmptyDirMounts: []
 # - name: extra-empty-dir
 #   mountPath: /var/lib/foobar
+
+## Number of LimeSurvey replicas to deploy
+## Multiple replicas may require table sessions to be enabled
+replicaCount: 1
 
 service:
   type: ClusterIP
