@@ -113,7 +113,7 @@ spec:
                   {{- end }}
             - name: DB_USERNAME
               {{- if eq .Values.mariadb.enabled true }}
-              value: {{ .Values.mariadb.username }}
+              value: {{ .Values.mariadb.auth.username }}
               {{- else }}
               value: {{ .Values.externalDatabase.username }}
               {{- end }}
