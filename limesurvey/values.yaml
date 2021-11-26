@@ -158,6 +158,10 @@ autoscaling:
   maxReplicas: 11
   targetCPUUtilizationPercentage: 80
 
+containerSecurityContext:
+  enabled: true
+  allowPrivilegeEscalation: false
+
 nodeSelector: {}
 
 tolerations: []

@@ -30,6 +30,9 @@ spec:
       initContainers:
         - name: wait-for-db
           image: {{ include "limesurvey.imageUrl" . }}
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['/bin/sh', '-c',
           'until nc -z -v -w30 "$DB_HOST" "$DB_PORT"; do
@@ -53,6 +56,9 @@ spec:
         - name: limesurvey-apache
           image: {{ include "limesurvey.imageUrl" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 8080
