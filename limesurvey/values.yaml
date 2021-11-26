@@ -81,8 +81,8 @@ limesurvey:
     secretBoxKey: ""
   existingSecret: null
   listenPort: 8080
-  publicUrl: http://localhost:8080
-  baseUrl: http://localhost:8080
+  publicUrl: ""
+  baseUrl: ""
   urlFormat: "path"
   showScriptName: ""
   # Database table prefix; set this to a single whitespace if you don't want a table prefix.
