@@ -14,6 +14,9 @@ tests:
       - equal:
           path: metadata.labels.app\.kubernetes\.io/instance
           value: my-ls
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation
+          value: false
       - matchRegex:
           path: spec.template.spec.containers[0].image
           pattern: '^docker.io/martialblog/limesurvey:.*'
@@ -144,6 +147,8 @@ tests:
         tableSession: true
         tablePrefix: "foobar_"
         listenPort: 9999
+      updateStrategy:
+        type: "Recreate"
       ###
     asserts:
       - contains:
@@ -164,3 +169,6 @@ tests:
       - equal:
           path: metadata.labels.app\.kubernetes\.io/version
           value: "3-apache"
+      - equal:
+          path: spec.strategy.type
+          value: "Recreate"

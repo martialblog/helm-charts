@@ -7,12 +7,19 @@
 ```console
 helm repo add martialblog https://martialblog.github.io/helm-charts
 helm repo update
-helm install my-release martialblog/limesurvey
+
+helm install my-release \
+  --set mariadb.enabled=true \
+  --set mariadb.rootPassword=CHANGE-ME \
+  --set mariadb.password=CHANGE-ME \
+  martialblog/limesurvey
 ```
 
 ## Introduction
 
 This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+
+It also packages the [Bitnami MariaDB chart](https://artifacthub.io/packages/helm/bitnami/mariadb) which is required for bootstrapping a MariaDB deployment for the database requirements of the application. You also provide your own database instance.
 
 ## Prerequisites
 
@@ -27,8 +34,6 @@ This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.
 | Name                      | Description                                     | Value |
 | ------------------------- | ----------------------------------------------- | ----- |
 | `global.imageRegistry`    | Global Docker image registry                    | `nil` |
-| `global.imagePullSecrets` | Global Docker registry secret names as an array | `[]`  |
-| `global.storageClass`     | Global StorageClass for Persistent Volume(s)    | `nil` |
 
 ### LimeSurvey Image parameters
 
@@ -78,6 +83,44 @@ This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.
 | `persistence.annotations`                     | persistent volume claim annotations                                                             | `{}`                    |
 | `persistence.existingClaim`                   | The name of an existing PVC to use for persistence                                              | `nil`                   |
 
+### Traffic Exposure Parameters
+
+| Name                      | Description                                     | Value |
+| ------------------------- | ----------------------------------------------- | ----- |
+| `service.type`        | LimeSurvey service type                             | `ClusterIP` |
+| `service.port`        | LimeSurvey service port                             | `80` |
+| `ingress.enabled`     | Enable ingress record generation for LimeSurvey     | `false` |
+| `ingress.className`   | IngressClass that will be be used to implement the Ingress | `""` |
+| `ingress.hosts`       | An array with hosts for the Ingress                 | `limesurvey.local` |
+| `ingress.annotations` | Additional annotations for the Ingress resource. To enable certificate autogeneration, place here your cert-manager annotations. | `{}` |
+| `ingress.tls`         | Enable TLS configuration for the host defined at `ingress.hostname` parameter | `false` |
+
+### Other parameters
+
+| Name                      | Description                                      | Value |
+| ------------------------- | ------------------------------------------------ | ----- |
+| `imagePullSecrets`        | Docker registry secret names as an array         | `[]`  |
+| `nameOverride`            | String to override the Chart Name                | `nil` |
+| `fullnameOverride`        | String to fully override the Chart Name          | `nil` |
+| `extraVolumeMounts`       | Additional volumes as an array                   | `[]`  |
+| `extraEmptyDirMounts`     | Additional emptyDir volumes as an array          | `[]`  |
+| `nodeSelector`            | Node labels for pod assignment                   | `{}`  |
+| `tolerations`             | Tolerations for pod assignment                   | `{}`  |
+| `affinity`                | Affinity for pod assignment                      | `{}`  |
+| `podAnnotations`          | Annotations for LimeSurvey pods                  | `[]`  |
+| `updateStrategy.type`     | Deployment strategy type                         | `RollingUpdate` |
+| `updateStrategy.rollingUpdate` | Deployment rolling update configuration parameters | `{}` |
+| `replicaCount`            | Number of LimeSurvey replicas to deploy          | `1`   |
+| `autoscaling.enabled`     | Enable Horizontal POD autoscaling for LimeSurvey | `false` |
+| `autoscaling.minReplicas` | Minimum number of LimeSurvey replicas            | `1`   |
+| `autoscaling.maxReplicas` | Maximum number of LimeSurvey replicas            | `11`  |
+| `autoscaling.targetCPUUtilizationPercentage`   | Target CPU utilization percentage    | `80`   |
+| `podSecurityContext.fsGroup`    | Set LimeSurvey pod's Security Context fsGroup       | `33`   |
+| `podSecurityContext.runAsUser`  | Set LimeSurvey pod's Security Context runAsUser     | `33`   |
+| `podSecurityContext.runAsGroup` | Set LimeSurvey pod's Security Context runAsGroup    | `33`   |
+| `containerSecurityContext.enabled`   | Enable LimeSurvey containers' Security Context | `true` |
+| `containerSecurityContext.allowPrivilegeEscalation` | Default LimeSurvey containers' Security Context | `true` |
+
 ### Database Parameters
 
 LimeSurvey requires a [MySQL- or PostgreSQL-compatible database](https://manual.limesurvey.org/Installation_-_LimeSurvey_CE#Create_a_database_user).
@@ -120,6 +163,7 @@ kubectl get secrets --template={{.data.limesurvey-admin-password}} | base64 -d
 This Helm chart is tested with [helm unittest](https://github.com/quintush/helm-unittest) ([test format spec](https://github.com/quintush/helm-unittest/blob/master/DOCUMENT.md)).
 You can find the test specifications in the `./tests/` directory.
 Tests are automatically run in CI.
+
 To run the tests locally, use the following command:
 
 ```

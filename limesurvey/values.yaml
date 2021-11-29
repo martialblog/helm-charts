@@ -1,7 +1,5 @@
 # Default values for LimeSurvey.
 
-replicaCount: 1
-
 global:
   imageRegistry: ""
 
@@ -131,6 +129,10 @@ extraEmptyDirMounts: []
 # - name: extra-empty-dir
 #   mountPath: /var/lib/foobar
 
+## Number of LimeSurvey replicas to deploy
+## Multiple replicas may require table sessions to be enabled
+replicaCount: 1
+
 service:
   type: ClusterIP
   port: 80
@@ -146,13 +148,27 @@ ingress:
           pathType: ImplementationSpecific
   tls: []
 
-resources: {}
+resources:
+  limits: {}
+  requests:
+    memory: 512Mi
+    cpu: 300m
+
+## Deployment strategy type and parameters
+## Set it to `Recreate` if you use a PV that cannot be mounted on multiple pods
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate: {}
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 11
   targetCPUUtilizationPercentage: 80
+
+containerSecurityContext:
+  enabled: true
+  allowPrivilegeEscalation: false
 
 nodeSelector: {}
 
