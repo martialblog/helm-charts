@@ -147,6 +147,8 @@ tests:
         tableSession: true
         tablePrefix: "foobar_"
         listenPort: 9999
+      updateStrategy:
+        type: "Recreate"
       ###
     asserts:
       - contains:
@@ -167,3 +169,6 @@ tests:
       - equal:
           path: metadata.labels.app\.kubernetes\.io/version
           value: "3-apache"
+      - equal:
+          path: spec.strategy.type
+          value: "Recreate"

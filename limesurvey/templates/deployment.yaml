@@ -11,6 +11,9 @@ spec:
   selector:
     matchLabels:
       {{- include "limesurvey.selectorLabels" . | nindent 6 }}
+  {{- if .Values.updateStrategy }}
+  strategy: {{- toYaml .Values.updateStrategy | nindent 4 }}
+  {{- end }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
