@@ -107,7 +107,9 @@ It also packages the [Bitnami MariaDB chart](https://artifacthub.io/packages/hel
 | `nodeSelector`            | Node labels for pod assignment                   | `{}`  |
 | `tolerations`             | Tolerations for pod assignment                   | `{}`  |
 | `affinity`                | Affinity for pod assignment                      | `{}`  |
-| `podAnnotations`          |  Annotations for LimeSurvey pods                 | `[]`  |
+| `podAnnotations`          | Annotations for LimeSurvey pods                  | `[]`  |
+| `updateStrategy.type`     | Deployment strategy type                         | `RollingUpdate` |
+| `updateStrategy.rollingUpdate` | Deployment rolling update configuration parameters | `{}` |
 | `replicaCount`            | Number of LimeSurvey replicas to deploy          | `1`   |
 | `autoscaling.enabled`     | Enable Horizontal POD autoscaling for LimeSurvey | `false` |
 | `autoscaling.minReplicas` | Minimum number of LimeSurvey replicas            | `1`   |
