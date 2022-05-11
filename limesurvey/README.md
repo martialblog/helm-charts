@@ -19,7 +19,7 @@ helm install my-release \
 
 This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
-It also packages the [Bitnami MariaDB chart](https://artifacthub.io/packages/helm/bitnami/mariadb) which is required for bootstrapping a MariaDB deployment for the database requirements of the application. You also provide your own database instance.
+It also packages the [Bitnami MariaDB chart](https://artifacthub.io/packages/helm/bitnami/mariadb) which is required for bootstrapping a MariaDB deployment for the database requirements of the application. You can also provide your own database instance.
 
 ## Prerequisites
 
