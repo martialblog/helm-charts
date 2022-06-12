@@ -10,8 +10,8 @@ helm repo update
 
 helm install my-release \
   --set mariadb.enabled=true \
-  --set mariadb.rootPassword=CHANGE-ME \
-  --set mariadb.password=CHANGE-ME \
+  --set mariadb.auth.rootPassword=CHANGE-ME \
+  --set mariadb.auth.password=CHANGE-ME \
   martialblog/limesurvey
 ```
 
