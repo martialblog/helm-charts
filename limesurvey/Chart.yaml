@@ -16,4 +16,4 @@ dependencies:
   - name: mariadb
     condition: mariadb.enabled
     repository: https://charts.bitnami.com/bitnami
-    version: 10.x
+    version: 11.x
