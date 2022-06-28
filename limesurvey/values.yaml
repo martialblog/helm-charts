@@ -163,7 +163,6 @@ resources:
 ## Set it to `Recreate` if you use a PV that cannot be mounted on multiple pods
 updateStrategy:
   type: RollingUpdate
-  rollingUpdate: {}
 
 autoscaling:
   enabled: false
