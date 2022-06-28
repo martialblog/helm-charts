@@ -158,6 +158,12 @@ If the initial Admin Password `limesurvey.admin.password` is not provided it wil
 kubectl get secrets --template={{.data.limesurvey-admin-password}} | base64 -d
 ```
 
+## Upgrading
+
+### To 0.6.0
+
+This release bumps the Bitnami MariaDB to 10.6. Follow the official instructions [official instructions](https://mariadb.com/kb/en/upgrading-from-mariadb-105-to-mariadb-106/).
+
 ## Testing
 
 This Helm chart is tested with [helm unittest](https://github.com/quintush/helm-unittest) ([test format spec](https://github.com/quintush/helm-unittest/blob/master/DOCUMENT.md)).
@@ -171,5 +177,5 @@ To run the tests locally, use the following command:
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm dependency build
 
-podman run --rm -v "${PWD}:/apps" docker.io/quintush/helm-unittest:3.6.3-0.2.7 --helm3 .
+podman run --rm -v "${PWD}:/apps" docker.io/quintush/helm-unittest:3.7.1-0.2.8 --helm3 .
 ````
