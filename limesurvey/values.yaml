@@ -122,6 +122,11 @@ extraVolumeMounts: []
 #   mountPath: /mnt/volume1
 #   readOnly: true
 #   hostPath: /usr/shared/
+# - name: extra-volume-configmap
+#   configMap: limesurvey
+#   items:
+#   - key: config.php
+#     path: application/config/config.php
 
 ## This allows you to mount additional "emptyDirs"
 ## into the Limesurvey container
