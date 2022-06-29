@@ -122,6 +122,11 @@ extraVolumeMounts: []
 #   mountPath: /mnt/volume1
 #   readOnly: true
 #   hostPath: /usr/shared/
+# - name: extra-volume-configmap
+#   configMap: limesurvey
+#   items:
+#   - key: config.php
+#     path: application/config/config.php
 
 ## This allows you to mount additional "emptyDirs"
 ## into the Limesurvey container
@@ -158,7 +163,6 @@ resources:
 ## Set it to `Recreate` if you use a PV that cannot be mounted on multiple pods
 updateStrategy:
   type: RollingUpdate
-  rollingUpdate: {}
 
 autoscaling:
   enabled: false

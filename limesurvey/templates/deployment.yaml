@@ -42,6 +42,8 @@ spec:
           echo "Info: Waiting for database connection...";
           sleep 5;
           done']
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
           env:
             - name: DB_HOST
               {{- if eq .Values.mariadb.enabled true }}
@@ -235,6 +237,13 @@ spec:
           {{- else if .hostPath }}
           hostPath:
             path: {{ .hostPath }}
+          {{- else if .configMap }}
+          configMap:
+            name: {{ .configMap }}
+            {{- with .items }}
+            items:
+              {{- toYaml . | nindent 14 }}
+            {{- end }}
           {{- else }}
           emptyDir: {}
           {{- end }}
