@@ -191,14 +191,14 @@ spec:
                   key: limesurvey-encrypt-secretkey
             {{- end }}
             {{- if (or .Values.limesurvey.encrypt.nonce .Values.limesurvey.existingSecret) }}
-            - name: ENCRYPT_SECRET_KEY
+            - name: ENCRYPT_NONCE
               valueFrom:
                 secretKeyRef:
                   name: {{ include "limesurvey.secretName" . }}
                   key: limesurvey-encrypt-nonce
             {{- end }}
             {{- if (or .Values.limesurvey.encrypt.secretBoxKey .Values.limesurvey.existingSecret) }}
-            - name: ENCRYPT_SECRET_KEY
+            - name: ENCRYPT_SECRET_BOX_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ include "limesurvey.secretName" . }}
