@@ -77,10 +77,22 @@ tests:
           keypair: 'keypair'
           publicKey: 'public-key'
           secretKey: 'secret-key'
+          secretBoxKey: 'secret-key-box'
+          nonce: 'nonce'
         debug: 123
         debugSql: 456
       ###
     asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ENCRYPT_NONCE
+          any: true
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ENCRYPT_SECRET_BOX_KEY
+          any: true
       - contains:
           path: spec.template.spec.containers[0].env
           content:
