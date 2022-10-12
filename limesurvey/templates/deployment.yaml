@@ -68,14 +68,18 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          {{- if .Values.limesurvey.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
               path: /
               port: http
+          {{- end }}
+          {{- if .Values.limesurvey.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
               path: /
               port: http
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
@@ -120,19 +124,33 @@ spec:
                   {{- if .Values.mariadb.enabled }}
                   key: mariadb-password
                   {{- else }}
-                  key: db-password
+                  key: {{ .Values.externalDatabase.existingSecretConfig.passwordField }}
                   {{- end }}
             - name: DB_USERNAME
               {{- if eq .Values.mariadb.enabled true }}
               value: {{ .Values.mariadb.auth.username }}
               {{- else }}
+                {{- if .Values.externalDatabase.existingSecretConfig.usernameField }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "limesurvey.databaseSecretName" . }}
+                  key: {{ .Values.externalDatabase.existingSecretConfig.usernameField }}
+                {{- else}}
               value: {{ .Values.externalDatabase.username }}
+                {{- end }}
               {{- end }}
             - name: DB_NAME
               {{- if eq .Values.mariadb.enabled true }}
               value: {{ .Values.mariadb.auth.database }}
               {{- else }}
+                {{- if .Values.externalDatabase.existingSecretConfig.databaseField }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "limesurvey.databaseSecretName" . }}
+                  key: {{ .Values.externalDatabase.existingSecretConfig.databaseField}}
+                {{- else }}
               value: {{ .Values.externalDatabase.database }}
+                {{- end }}
               {{- end }}
             - name: DB_TABLE_PREFIX
               value: {{ .Values.limesurvey.tablePrefix | quote }}
