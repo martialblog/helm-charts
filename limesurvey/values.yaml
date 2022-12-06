@@ -42,22 +42,26 @@ mariadb:
 ## Use an externally provisioned database instance
 ## Ignored when mariadb.enabled is set to true
 externalDatabase:
-  # Type of external database ("mysql" or "psql")
+  # Type of external database ("mysql" or "pgsql")
   type: mysql
   # External Database server host
   host: mariadb.example.com
   # External Database server port
   port: 3306
-  # External Database username
+  # External Database username (use existingSecretConfig.usernameField to load from secret)
   username: limesurvey
   # External Database user password
-  # (ignored when existingSecret is set)
+  # (ignored when existingSecret is set, use existingSecretConfig.passwordField to change key)
   password: null
-  # External Database database name
+  # External Database database name (use existingSecretConfig.databaseField to load from secret)
   database: limesurvey
   # Use an existing secret for retrieving the database password.
-  # The secret must contain the field "db-password".
+  # The secret must contain the field "db-password" (field name configurable via existingSecretConfig.passwordField)
   existingSecret: null
+  existingSecretConfig:
+    passwordField: db-password
+    usernameField: null
+    databaseField: null
 
 # Limesurvey Application configuration
 limesurvey:
@@ -76,6 +80,7 @@ limesurvey:
     publicKey: ""
     secretKey: ""
     nonce: ""
+    # Create with: php -r "var_dump(sodium_bin2hex(sodium_crypto_secretbox_keygen()));"
     secretBoxKey: ""
   existingSecret: null
   listenPort: 8080
@@ -93,6 +98,11 @@ limesurvey:
   debugSql: 0
   # Value should be either MyISAM or InnoDB
   mysqlEngine: MyISAM
+  # Probes, disable them when you enable global ssl enforcement, because they won't work with the redirect to https
+  livenessProbe:
+    enabled: true
+  readinessProbe:
+    enabled: true
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
