@@ -125,7 +125,7 @@ tests:
     set:
       ### Helm values:
       image:
-        registry: gchr.io
+        registry: ghcr.io
         tag: debian-ramesses-the-third
       persistence:
         enabled: true
@@ -134,7 +134,7 @@ tests:
     asserts:
       - equal:
           path: spec.template.spec.containers[0].image
-          value: gchr.io/martialblog/limesurvey:debian-ramesses-the-third
+          value: ghcr.io/martialblog/limesurvey:debian-ramesses-the-third
       - equal:
           path: spec.template.spec.containers[0].volumeMounts[0].name
           value: storage
