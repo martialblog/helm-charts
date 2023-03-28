@@ -1,0 +1,110 @@
+# Default values for ejabberd.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Standard Helm chart settings
+nameOverride: ""
+fullnameOverride: ""
+
+replicaCount: 1
+
+# This section defines which image to use and how to pull it
+image:
+  # Find all available tags / relases in:
+  # https://github.com/processone/ejabberd/pkgs/container/ejabberd
+  repository: ghcr.io/processone/ejabberd
+  tag: "latest"
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # Name of the service account to use. If empty, a name is generated using the fullname template
+  name: ""
+
+# Additional annotations for the pod
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 9000
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 9000
+  runAsGroup: 9000
+
+service:
+  type: ClusterIP
+  port: 80
+
+certificate:
+  secretName: ""
+  # Note that this features requires an existing CertManager setup
+  create: false
+  # issuerRef:
+  #   group: cert-manager.io
+  #   kind: ClusterIssuer
+  #   name: "letsencrypt-production"
+
+persistence:
+  enabled: false
+  claimName: ""
+  size: 1Gi
+  storageClassName: ""
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# If a new secret should be created to store the contents of the config below
+createConfigSecret: true
+# The name of the config secret. If empty, the name is generated automatically based on the chart name.
+configSecretName: ""
+
+config:
+
+  ###              ejabberd configuration file
+  ###
+  ### The parameters used in this configuration file are explained at
+  ###
+  ###       https://docs.ejabberd.im/admin/configuration
+  ###
+  ###                 For an example config see
+  ###
+  ### https://github.com/processone/ejabberd/blob/master/ejabberd.yml.example
+
+  hosts:
+    - localhost
+
+  # loglevel can be one of: none | emergency | alert | critical | error | warning | notice | info | debug
+  loglevel: "info"
+
+  # certificates mounted from secrets
+  certfiles:
+    - "/opt/ejabberd/certs/tls.crt"
+    - "/opt/ejabberd/certs/tls.key"
+
+  # certificates are managed elsewhere, do not attempt to get certs automatically
+  acme:
+    auto: false

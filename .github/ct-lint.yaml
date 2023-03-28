@@ -1,6 +1,7 @@
 ---
 charts:
   - limesurvey
+  - ejabberd
 chart-repos:
   - bitnami=https://charts.bitnami.com/bitnami
 debug: false

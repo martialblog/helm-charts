@@ -1,0 +1,16 @@
+apiVersion: v2
+name: ejabberd
+description: A Helm chart for installing the ejabberd messaging server on Kubernetes
+type: application
+version: 0.1.0
+sources:
+  - https://github.com/processone/ejabberd
+# icon: TODO
+keywords:
+  - ejabberd
+  - messaging
+  - xmpp
+  - mqtt
+  - stun
+  - turn
+  - sip
