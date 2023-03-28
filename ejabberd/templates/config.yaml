@@ -1,0 +1,14 @@
+{{- if .Values.createConfigSecret }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "ejabberd.configSecretName" . }}
+  labels:
+    {{- include "ejabberd.labels" . | nindent 4 }}
+data:
+  # main ejabberd configuration file
+  ejabberd.yml: {{ toYaml .Values.config | b64enc }}
+  # creating an empty file to avoid scary warnings:
+  # inet_config: file /opt/ejabberd/conf/inetrc not found
+  inetrc: ""
+{{- end }}

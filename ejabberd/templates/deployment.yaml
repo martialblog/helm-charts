@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ejabberd.fullname" . }}
+  labels:
+    {{- include "ejabberd.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ejabberd.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ejabberd.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "ejabberd.serviceAccountName" . }}
+      automountServiceAccountToken: false
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: "ERLANG_NODE"
+              value: "ejabberd@localhost"
+          ports:
+            - name: xmpp-c2s
+              containerPort: 5222
+              protocol: TCP
+            - name: xmpp-s2s
+              containerPort: 5269
+              protocol: TCP
+            - name: http
+              containerPort: 5443
+              protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: http
+          livenessProbe:
+            tcpSocket:
+              port: xmpp-c2s
+            initialDelaySeconds: 15
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+            - name: certificates
+              mountPath: /opt/ejabberd/certs/
+              readOnly: true
+            - name: data
+              mountPath: /opt/ejabberd/upload
+              subPath: upload
+              readOnly: false
+            - name: data
+              mountPath: /opt/ejabberd/database
+              subPath: database
+              readOnly: false
+            - name: config
+              mountPath: /opt/ejabberd/conf
+              readOnly: true
+
+      volumes:
+        - name: data
+          {{- if .Values.persistence.enabled }}
+          persistentvolumeClaim:
+            claimName: {{ include "ejabberd.pvcName" . }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: certificates
+          secret:
+            secretName: {{ include "ejabberd.certificateSecretName" . }}
+        - name: config
+          secret:
+            secretName: {{ include "ejabberd.configSecretName" . }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

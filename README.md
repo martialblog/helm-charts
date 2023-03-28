@@ -9,10 +9,7 @@ helm repo update
 
 # Helm Charts
 
-The following Helm Charts are available.
+The following Helm Charts are available:
 
-## LimeSurvey
-
-```
-helm install my-release martialblog/limesurvey
-```
+* [LimeSurvey](./limesurvey/README.md)
+* [ejabberd](./limesurvey/README.md)
