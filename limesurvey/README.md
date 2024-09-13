@@ -164,7 +164,7 @@ kubectl get secrets --template={{.data.limesurvey-admin-password}} | base64 -d
 
 ### To 0.9.0
 
-This release bumps the nextcloud container used. Limesurvey 5 is the new LTS. [Follow the official instructions for more information.](https://manual.limesurvey.org/Upgrading_from_a_previous_version)
+This release bumps the LimeSurvey container used. LimeSurvey 5 is the new LTS. [Follow the official instructions for more information.](https://manual.limesurvey.org/Upgrading_from_a_previous_version)
 
 ### To 0.6.0
 
