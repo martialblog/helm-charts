@@ -41,7 +41,7 @@ It also packages the [Bitnami MariaDB chart](https://artifacthub.io/packages/hel
 | ------------------- | ---------------------------------------------------- | --------------------- |
 | `image.registry`    | LimeSurvey image registry                            | `docker.io`           |
 | `image.repository`  | LimeSurvey image repository                           | `martialblog/limesurvey`   |
-| `image.tag`         | LimeSurvey image tag (immutable tags are recommended) | `5-apache` |
+| `image.tag`         | LimeSurvey image tag (immutable tags are recommended) | `6-apache` |
 | `image.pullPolicy`  | LimeSurvey image pull policy                          | `IfNotPresent`        |
 | `image.pullSecrets` | LimeSurvey image pull secrets                         | `[]`                  |
 
@@ -126,6 +126,7 @@ It also packages the [Bitnami MariaDB chart](https://artifacthub.io/packages/hel
 LimeSurvey requires a [MySQL- or PostgreSQL-compatible database](https://manual.limesurvey.org/Installation_-_LimeSurvey_CE#Create_a_database_user).
 
 You can either provide your own:
+
 ```yaml
 externalDatabase:
   host: hostname.example
@@ -135,6 +136,7 @@ externalDatabase:
 ```
 
 or you can let the Helm chart provision one for you (based on [Bitnami MariaDB Helm chart](https://artifacthub.io/packages/helm/bitnami/mariadb)):
+
 ```yaml
 mariadb:
   enabled: true
@@ -159,6 +161,10 @@ kubectl get secrets --template={{.data.limesurvey-admin-password}} | base64 -d
 ```
 
 ## Upgrading
+
+### To 0.9.0
+
+This release bumps the LimeSurvey container used. LimeSurvey 5 is the new LTS. [Follow the official instructions for more information.](https://manual.limesurvey.org/Upgrading_from_a_previous_version)
 
 ### To 0.6.0
 
