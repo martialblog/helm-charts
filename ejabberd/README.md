@@ -27,7 +27,7 @@ kubectl logs deploy/ejabberd
 * [x] Certificates: [cert-manager](https://cert-manager.io/docs/) integration (optional)
 * [x] Configuration: specify custom overrides for [ejabberd.yml](https://docs.ejabberd.im/admin/configuration/)
 * [ ] [Clustering](https://github.com/processone/docker-ejabberd/tree/master/ecs#clustering): scale the deployment to multiple replicas
-* [ ] [Reload at runtime](https://docs.ejabberd.im/admin/configuration/file-format/#reload-at-runtime): apply configuration changes without restarting the server
+* [x] [Reload at runtime](https://docs.ejabberd.im/admin/configuration/file-format/#reload-at-runtime): apply configuration changes and certificate updates without restarting the server
 * [ ] Unit tests for Helm chart
 
 ## Values

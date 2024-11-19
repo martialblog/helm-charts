@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ejabberd.scriptsConfigmapName" . }}
+  labels:
+    {{- include "ejabberd.labels" . | nindent 4 }}
+data:
+  reload-ejabberd.sh: |
+    #!/bin/sh
+    echo "Reloading ejabberd configuration at $(date -Iseconds)"
+    ejabberdctl reload-config
+  watch.sh: |
+    #!/bin/sh
+    echo "Waiting for configuration updates ..."
+    exec inotifyd /scripts/reload-ejabberd.sh /opt/ejabberd/conf:n /opt/ejabberd/certs:n

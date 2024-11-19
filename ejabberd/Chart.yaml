@@ -2,10 +2,10 @@ apiVersion: v2
 name: ejabberd
 description: A Helm chart for installing the ejabberd messaging server on Kubernetes
 type: application
-version: 0.1.0
+version: 0.2.0
 sources:
   - https://github.com/processone/ejabberd
-# icon: TODO
+icon: https://raw.githubusercontent.com/processone/docs.ejabberd.im/master/content/assets/img/footer_logo_e.png
 keywords:
   - ejabberd
   - messaging

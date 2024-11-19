@@ -12,7 +12,6 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -28,6 +27,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
+        # Main ejabberd container
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -72,10 +72,41 @@ spec:
               mountPath: /opt/ejabberd/conf
               readOnly: true
 
+        # Config reloader container
+        # https://docs.ejabberd.im/admin/configuration/file-format/#reload-at-runtime
+        - name: config-reloader
+          command:
+          - /scripts/watch.sh
+          env:
+          - name: ERLANG_NODE
+          value: ejabberd@localhost
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            limits:
+              cpu: 10m
+              memory: 50Mi
+            requests:
+              cpu: 5m
+              memory: 10Mi
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+          - mountPath: /opt/ejabberd/certs/
+            name: certificates
+            readOnly: true
+          - mountPath: /opt/ejabberd/conf/
+            name: config
+            readOnly: true
+          - mountPath: /scripts/
+            name: scripts
+            readOnly: true
+
       volumes:
         - name: data
           {{- if .Values.persistence.enabled }}
-          persistentvolumeClaim:
+          persistentVolumeClaim:
             claimName: {{ include "ejabberd.pvcName" . }}
           {{- else }}
           emptyDir: {}
@@ -86,6 +117,13 @@ spec:
         - name: config
           secret:
             secretName: {{ include "ejabberd.configSecretName" . }}
+        - name: scripts
+          configMap:
+            name: {{ include "ejabberd.scriptsConfigmapName" . }}
+            defaultMode: 360 # scripts need to have the executable bit set
+
+      # Required so the config reloader can tell ejabberd to reload the config
+      shareProcessNamespace: true
 
       {{- with .Values.nodeSelector }}
       nodeSelector:
