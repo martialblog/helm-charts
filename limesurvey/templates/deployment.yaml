@@ -181,7 +181,7 @@ spec:
               value: {{ .Values.limesurvey.urlFormat }}
               {{- if eq .Values.limesurvey.tableSession true }}
             - name: TABLE_SESSION
-              value: {{ .Values.limesurvey.tableSession }}
+              value: {{ .Values.limesurvey.tableSession | quote }}
               {{- end }}
             {{- if .Values.limesurvey.showScriptName }}
             - name: SHOW_SCRIPT_NAME
