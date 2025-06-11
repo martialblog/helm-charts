@@ -1,7 +1,7 @@
 # Default values for LimeSurvey.
 
 global:
-  imageRegistry: ""
+  imageRegistry: ''
 
 image:
   registry: docker.io
@@ -14,14 +14,26 @@ image:
 # Optionally specify an array of imagePullSecrets
 # Secrets must be manually created in the namespace
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: ''
+fullnameOverride: ''
 
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
   annotations: {}
-  name: ""
+  name: ''
+
+## @param initContainers Add additional init containers to the Limesurvey pods
+## Example:
+## initContainers:
+##   - name: your-image-name
+##     image: your-image
+##     imagePullPolicy: Always
+##     ports:
+##       - name: portname
+##         containerPort: 1234
+##
+initContainers: []
 
 ## MariaDB chart configuration
 mariadb:
@@ -31,7 +43,7 @@ mariadb:
   # https://github.com/bitnami/charts/blob/master/bitnami/mariadb/values.yaml
   auth:
     # MariaDB root password
-    rootPassword: ""
+    rootPassword: ''
     # MariaDB custom database
     database: limesurvey
     # MariaDB custom user name
@@ -76,20 +88,20 @@ limesurvey:
   # https://manual.limesurvey.org/Data_encryption
   # Not required for LimeSurvey 3
   encrypt:
-    keypair: ""
-    publicKey: ""
-    secretKey: ""
-    nonce: ""
+    keypair: ''
+    publicKey: ''
+    secretKey: ''
+    nonce: ''
     # Create with: php -r "var_dump(sodium_bin2hex(sodium_crypto_secretbox_keygen()));"
-    secretBoxKey: ""
+    secretBoxKey: ''
   existingSecret: null
   listenPort: 8080
-  publicUrl: ""
-  baseUrl: ""
-  urlFormat: "path"
-  showScriptName: ""
+  publicUrl: ''
+  baseUrl: ''
+  urlFormat: 'path'
+  showScriptName: ''
   # Database table prefix; set this to a single whitespace if you don't want a table prefix.
-  tablePrefix: "lime_"
+  tablePrefix: 'lime_'
   # Enable table sessions (Storing sessions in the database)
   tableSession: false
   # LimeSurvey Debug level (0, 1, 2)
@@ -118,7 +130,7 @@ persistence:
   finalizers:
     - kubernetes.io/pvc-protection
   selectorLabels: {}
-  subPath: ""
+  subPath: ''
   existingClaim: null
 
 ## This allows you to mount additional volumes
@@ -154,7 +166,7 @@ service:
 
 ingress:
   enabled: false
-  className: ""
+  className: ''
   annotations: {}
   hosts:
     - host: limesurvey.local

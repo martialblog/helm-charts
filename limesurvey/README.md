@@ -120,6 +120,7 @@ It also packages the [Bitnami MariaDB chart](https://artifacthub.io/packages/hel
 | `podSecurityContext.runAsGroup` | Set LimeSurvey pod's Security Context runAsGroup    | `33`   |
 | `containerSecurityContext.enabled`   | Enable LimeSurvey containers' Security Context | `true` |
 | `containerSecurityContext.allowPrivilegeEscalation` | Default LimeSurvey containers' Security Context | `true` |
+| `initContainers`          | Add additional init containers to the Limesurvey pods      | `[]`  |
 
 ### Database Parameters
 
