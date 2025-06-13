@@ -201,7 +201,10 @@ spec:
               value: "{{ .Values.limesurvey.debug }}"
             - name: DEBUG_SQL
               value: "{{ .Values.limesurvey.debugSql }}"
-
+            {{- with .Values.extraEnvVars }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -35,6 +35,10 @@ serviceAccount:
 ##
 initContainers: []
 
+## @param discourse.extraEnvVars Array with extra environment variables to add Limesurvey pods
+##
+extraEnvVars: []
+
 ## MariaDB chart configuration
 mariadb:
   # Deploy a MariaDB server to satisfy the database requirements
