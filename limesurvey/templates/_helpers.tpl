@@ -111,6 +111,7 @@ Return the full URL of the LimeSurvey image (including registry, image and tag)
 Renders all initContainers: static + extra from values
 */}}
 {{- define "limesurvey.initContainers" }}
+{{- $initContainers := .Values.initContainers }}
 - name: wait-for-db
   image: {{ include "limesurvey.imageUrl" . }}
   {{- if .Values.containerSecurityContext.enabled }}
@@ -123,21 +124,21 @@ Renders all initContainers: static + extra from values
   sleep 5;
   done']
   resources:
-  {{- toYaml .Values.resources | nindent 12 }}
+    {{- toYaml .Values.resources | nindent 4 }}
   env:
-  - name: DB_HOST
+    - name: DB_HOST
       {{- if eq .Values.mariadb.enabled true }}
       value: {{ include "limesurvey.mariadb.fullname" . }}
       {{- else }}
       value: {{ .Values.externalDatabase.host }}
       {{- end }}
-  - name: DB_PORT
+    - name: DB_PORT
       {{- if eq .Values.mariadb.enabled true }}
       value: {{ coalesce .Values.mariadb.primary.service.ports.mysql .Values.mariadb.primary.service.port 3306 | quote }}
       {{- else }}
       value: {{ coalesce .Values.externalDatabase.port 3306 | quote }}
       {{- end }}
-{{- with .Values.initContainers }}
+{{- with $initContainers -}}
 {{ toYaml . | nindent 0 }}
-{{- end }}
+{{- end -}}
 {{- end }}
