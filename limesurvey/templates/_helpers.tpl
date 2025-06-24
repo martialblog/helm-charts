@@ -106,3 +106,39 @@ Return the full URL of the LimeSurvey image (including registry, image and tag)
     {{- printf "%s/%s:%s" $registry $image $tag -}}
 {{- end -}}
 {{- end }}
+
+{{/*
+Renders all initContainers: static + extra from values
+*/}}
+{{- define "limesurvey.initContainers" }}
+{{- $initContainers := .Values.initContainers }}
+- name: wait-for-db
+  image: {{ include "limesurvey.imageUrl" . }}
+  {{- if .Values.containerSecurityContext.enabled }}
+  securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+  {{- end }}
+  imagePullPolicy: {{ .Values.image.pullPolicy }}
+  command: ['/bin/sh', '-c',
+  'until nc -z -v -w30 "$DB_HOST" "$DB_PORT"; do
+  echo "Info: Waiting for database connection...";
+  sleep 5;
+  done']
+  resources:
+    {{- toYaml .Values.resources | nindent 4 }}
+  env:
+    - name: DB_HOST
+      {{- if eq .Values.mariadb.enabled true }}
+      value: {{ include "limesurvey.mariadb.fullname" . }}
+      {{- else }}
+      value: {{ .Values.externalDatabase.host }}
+      {{- end }}
+    - name: DB_PORT
+      {{- if eq .Values.mariadb.enabled true }}
+      value: {{ coalesce .Values.mariadb.primary.service.ports.mysql .Values.mariadb.primary.service.port 3306 | quote }}
+      {{- else }}
+      value: {{ coalesce .Values.externalDatabase.port 3306 | quote }}
+      {{- end }}
+{{- with $initContainers -}}
+{{ toYaml . | nindent 0 }}
+{{- end -}}
+{{- end }}

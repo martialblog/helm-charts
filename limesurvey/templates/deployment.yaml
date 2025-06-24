@@ -31,32 +31,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
-        - name: wait-for-db
-          image: {{ include "limesurvey.imageUrl" . }}
-          {{- if .Values.containerSecurityContext.enabled }}
-          securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
-          {{- end }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ['/bin/sh', '-c',
-          'until nc -z -v -w30 "$DB_HOST" "$DB_PORT"; do
-          echo "Info: Waiting for database connection...";
-          sleep 5;
-          done']
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-          env:
-            - name: DB_HOST
-              {{- if eq .Values.mariadb.enabled true }}
-              value: {{ include "limesurvey.mariadb.fullname" . }}
-              {{- else }}
-              value: {{ .Values.externalDatabase.host }}
-              {{- end }}
-            - name: DB_PORT
-              {{- if eq .Values.mariadb.enabled true }}
-              value: {{ coalesce .Values.mariadb.primary.service.ports.mysql .Values.mariadb.primary.service.port 3306 | quote }}
-              {{- else }}
-              value: {{ coalesce .Values.externalDatabase.port 3306 | quote }}
-              {{- end }}
+        {{ include "limesurvey.initContainers" . | nindent 8 }}
       containers:
         - name: limesurvey-apache
           image: {{ include "limesurvey.imageUrl" . }}
@@ -226,7 +201,10 @@ spec:
               value: "{{ .Values.limesurvey.debug }}"
             - name: DEBUG_SQL
               value: "{{ .Values.limesurvey.debugSql }}"
-
+            {{- with .Values.extraEnvVars }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
