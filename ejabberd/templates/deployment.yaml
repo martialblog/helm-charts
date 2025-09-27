@@ -37,6 +37,8 @@ spec:
           env:
             - name: "ERLANG_NODE"
               value: "ejabberd@localhost"
+            - name: "TINI_SUBREAPER"
+              value: "true"
           ports:
             - name: xmpp-c2s
               containerPort: 5222
