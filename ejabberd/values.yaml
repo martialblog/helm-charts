@@ -27,6 +27,8 @@ serviceAccount:
 
 # Additional annotations for the pod
 podAnnotations: {}
+# Additional labels for the pod
+podLabels: {}
 
 # Security settings for the Deployment Pod and its containers.
 # The settings below are the recommended, least-privilege values.
@@ -84,6 +86,16 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+networkPolicy:
+  enabled: false
+  # allowIngressFromNamespaces:
+  #   matchLabels:
+  #     kubernetes.io/metadata.name: kube-system
+  # allowIngressFromPods:
+  #   matchLabels:
+  #     svccontroller.k3s.cattle.io/svcname: ejabberd
+  #     svccontroller.k3s.cattle.io/svcnamespace: ejabberd
 
 # If a new secret should be created to store the contents of the config below
 # If you set this to false, you are required to supply your own configuration as a Kubernetes Secret.
