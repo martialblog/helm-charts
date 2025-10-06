@@ -87,3 +87,10 @@ The name of the Secret used for the configuration files
 {{- define "ejabberd.configSecretName" -}}
 {{- default (printf "%s-config" (include "ejabberd.fullname" .)) .Values.configSecretName }}
 {{- end }}
+
+{{/*
+Supplementary scripts used by the Helm chart
+*/}}
+{{- define "ejabberd.scriptsConfigmapName" -}}
+{{- printf "%s-scripts" (include "ejabberd.fullname" .) }}
+{{- end }}

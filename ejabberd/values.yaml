@@ -27,7 +27,12 @@ serviceAccount:
 
 # Additional annotations for the pod
 podAnnotations: {}
+# Additional labels for the pod
+podLabels: {}
 
+# Security settings for the Deployment Pod and its containers.
+# The settings below are the recommended, least-privilege values.
+# For more details refer to https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 podSecurityContext:
   fsGroup: 9000
 
@@ -35,25 +40,32 @@ securityContext:
   capabilities:
     drop:
     - ALL
+    add:
+    - NET_BIND_SERVICE
   readOnlyRootFilesystem: true
   runAsNonRoot: true
   runAsUser: 9000
   runAsGroup: 9000
 
+# The Kubernetes Service that exposes the ejabberd server.
+# To make the server available outside the cluster, the type should be change to `NodePort` or `LoadBalancer`.
 service:
   type: ClusterIP
-  port: 80
 
 certificate:
   secretName: ""
-  # Note that this features requires an existing CertManager setup
+  # Note that this feature requires an existing CertManager setup
   create: false
   # issuerRef:
   #   group: cert-manager.io
   #   kind: ClusterIssuer
   #   name: "letsencrypt-production"
 
+# Storage for the ejabberd server.
+# By default, ejabberd comes with its own embedded database.
+# Even if you use an external database, ejabberd needs some storage for handling file uploads, avatars etc.
 persistence:
+  # If disabled, an emptyDir (ephemeral!) will be mounted to the pod instead.
   enabled: false
   claimName: ""
   size: 1Gi
@@ -77,11 +89,23 @@ tolerations: []
 
 affinity: {}
 
+networkPolicy:
+  enabled: false
+  # allowIngressFromNamespaces:
+  #   matchLabels:
+  #     kubernetes.io/metadata.name: kube-system
+  # allowIngressFromPods:
+  #   matchLabels:
+  #     svccontroller.k3s.cattle.io/svcname: ejabberd
+  #     svccontroller.k3s.cattle.io/svcnamespace: ejabberd
+
 # If a new secret should be created to store the contents of the config below
+# If you set this to false, you are required to supply your own configuration as a Kubernetes Secret.
 createConfigSecret: true
 # The name of the config secret. If empty, the name is generated automatically based on the chart name.
 configSecretName: ""
 
+# The ejabberd server will automatically reload whenever the configuration file changes.
 config:
 
   ###              ejabberd configuration file
