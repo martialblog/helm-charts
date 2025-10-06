@@ -1,5 +1,27 @@
 apiVersion: v1
 entries:
+  ejabberd:
+  - apiVersion: v2
+    created: "2025-10-06T14:27:14.237818084Z"
+    description: A Helm chart for installing the ejabberd messaging server on Kubernetes
+    digest: aa1000372ca0ef4bc64aacce6d051ac415716722b52555d110a477d46d095a51
+    icon: https://raw.githubusercontent.com/processone/docs.ejabberd.im/master/content/assets/img/footer_logo_e.png
+    keywords:
+    - ejabberd
+    - messaging
+    - xmpp
+    - mqtt
+    - stun
+    - turn
+    - sip
+    - matrix
+    name: ejabberd
+    sources:
+    - https://github.com/processone/ejabberd
+    type: application
+    urls:
+    - https://github.com/martialblog/helm-charts/releases/download/ejabberd-0.3.1/ejabberd-0.3.1.tgz
+    version: 0.3.1
   limesurvey:
   - apiVersion: v2
     appVersion: 6-apache
@@ -277,4 +299,4 @@ entries:
     urls:
     - https://github.com/martialblog/helm-charts/releases/download/limesurvey-0.3.0/limesurvey-0.3.0.tgz
     version: 0.3.0
-generated: "2024-09-13T14:24:09.693125178Z"
+generated: "2025-10-06T14:27:14.237845305Z"
