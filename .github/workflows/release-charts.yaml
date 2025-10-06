@@ -37,3 +37,5 @@ jobs:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
           charts_dir: '.'
+          # only publish new releases (avoids "422 Validation Failed - Release already exists")
+          skip_existing: true
