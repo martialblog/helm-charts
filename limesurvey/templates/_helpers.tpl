@@ -86,6 +86,8 @@ Return the LimeSurvey Secret Name
 {{- define "limesurvey.secretName" -}}
 {{- if .Values.existingSecret }}
     {{- printf "%s" .Values.existingSecret -}}
+{{- else if .Values.limesurvey.existingSecret }}
+    {{- printf "%s" .Values.limesurvey.existingSecret -}}
 {{- else -}}
     {{- printf "%s-app-secrets" (include "limesurvey.fullname" .) -}}
 {{- end -}}
