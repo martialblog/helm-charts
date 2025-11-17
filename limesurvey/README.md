@@ -9,7 +9,6 @@ helm repo add martialblog https://martialblog.github.io/helm-charts
 helm repo update
 
 helm install my-release \
-  --set mariadb.enabled=true \
   --set mariadb.auth.rootPassword=CHANGE-ME \
   --set mariadb.auth.password=CHANGE-ME \
   martialblog/limesurvey
@@ -19,7 +18,7 @@ helm install my-release \
 
 This chart bootstraps LimeSurvey deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
-It also packages the [Bitnami MariaDB chart](https://artifacthub.io/packages/helm/bitnami/mariadb) which is required for bootstrapping a MariaDB deployment for the database requirements of the application. You can also provide your own database instance.
+It also packages the [Cloudpirates MariaDB chart](https://artifacthub.io/packages/helm/cloudpirates-mariadb/mariadb) which is required for bootstrapping a MariaDB deployment for the database requirements of the application. You can also provide your own database instance.
 
 ## Prerequisites
 
@@ -137,7 +136,7 @@ externalDatabase:
   password: "your-super-secret-password"
 ```
 
-or you can let the Helm chart provision one for you (based on [Bitnami MariaDB Helm chart](https://artifacthub.io/packages/helm/bitnami/mariadb)):
+or you can let the Helm chart provision one for you (based on the Cloudpirates MariaDB Helm chart mentioned above):
 
 ```yaml
 mariadb:
@@ -180,10 +179,9 @@ Tests are automatically run in CI.
 
 To run the tests locally, use the following command:
 
-```
+```shell
 # Required for pulling the MariaDB chart
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm dependency build
+helm dependency update
 
 podman run --rm -v "${PWD}:/apps" docker.io/quintush/helm-unittest:3.7.1-0.2.8 --helm3 .
 ````
