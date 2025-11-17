@@ -41,6 +41,8 @@ extraEnvVars: []
 
 ## MariaDB chart configuration
 mariadb:
+  # Deploy a MariaDB server to satisfy the database requirements
+  enabled: false
   # for all possible configuration values, see:
   # https://github.com/CloudPirates-io/helm-charts/blob/main/charts/mariadb/values.yaml
   auth:

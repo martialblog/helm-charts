@@ -9,6 +9,7 @@ helm repo add martialblog https://martialblog.github.io/helm-charts
 helm repo update
 
 helm install my-release \
+  --set mariadb.enabled=true \
   --set mariadb.auth.rootPassword=CHANGE-ME \
   --set mariadb.auth.password=CHANGE-ME \
   martialblog/limesurvey
