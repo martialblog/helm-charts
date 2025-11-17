@@ -136,7 +136,7 @@ Renders all initContainers: static + extra from values
       {{- end }}
     - name: DB_PORT
       {{- if eq .Values.mariadb.enabled true }}
-      value: {{ coalesce .Values.mariadb.primary.service.ports.mysql .Values.mariadb.primary.service.port 3306 | quote }}
+      value: {{ coalesce .Values.mariadb.service.port .Values.mariadb.service.port 3306 | quote }}
       {{- else }}
       value: {{ coalesce .Values.externalDatabase.port 3306 | quote }}
       {{- end }}
